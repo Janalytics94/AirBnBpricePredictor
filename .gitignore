@@ -1,3 +1,4 @@
 data/
 .vscode-server
 .bash_history
+.cache/pip
