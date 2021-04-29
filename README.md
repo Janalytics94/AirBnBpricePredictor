@@ -1,1 +1,1 @@
-# Air BnB Price Predictor
+# AirBnB Price Predictor
