@@ -2,11 +2,19 @@ import pandas as pd
 import os 
 
 
-def load_data(path):
-    'Load each data set recursively'
-    df = pd.read_csv(path)
+def read_df(path: str = os.path.join(os.getcwd(), '/data/<My_data>.csv'), **kwargs) -> pd.DataFrame:
+    """
+    Method importing a DataFrame from a specified path
+    :param path: A str pointing to the respective csv file
+    :param kwargs: Additional kwargs for pandas' read_csv method
+    :return: None
+    """
+    try:
+        df = pd.read_csv(path, **kwargs)
+        return df
+    except FileNotFoundError:
+        print('Data file not found. Path was ' + path)
 
-    return df
 
 def change_data_types(df):
     '''Change datatypes of features'''
