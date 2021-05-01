@@ -6,3 +6,4 @@ spacy
 clize
 ipykernel
 folium 
+dvc
