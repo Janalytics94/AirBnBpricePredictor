@@ -8,3 +8,5 @@ data/
 .gitconfig
 src/__pycache__
 .ipython
+.DS_Store
+.config/
