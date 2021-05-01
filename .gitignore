@@ -7,6 +7,7 @@ data/
 .cache
 .gitconfig
 src/__pycache__
+src/notes.txt
 .ipython
 .DS_Store
 .config/
