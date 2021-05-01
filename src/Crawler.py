@@ -12,7 +12,7 @@ def crawl_images(source, target):
     path = os.path.join(source + 'train.csv') 
     train = pd.read_csv(path, index_col='listing_id')
     # get picture url
-    _pUrl_list = train['picture_url'].unique().tolist()
+    _pUrl_list = train.picture_url.unique().tolist()
     filenames = train.index.unique().tolist()
     # start crawling
     start = time.time()
