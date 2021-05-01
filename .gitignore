@@ -2,3 +2,9 @@ data/
 .vscode-server
 .bash_history
 .cache/pip
+.ssh
+.vscode
+.cache
+.gitconfig
+src/__pycache__
+.ipython
