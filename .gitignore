@@ -1,5 +1,11 @@
 data/
-.local/
+.cache/
+.ssh/
+.vscode/
+.vscode-server/
+.bash_history
+.config/
+.ipython/
 src/__pycache__
 .gitconfig
 .DS_Store
