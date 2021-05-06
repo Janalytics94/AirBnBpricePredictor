@@ -53,8 +53,8 @@ def change_data_types(df):
 
 def split_df(df):
     ''' splits df into supgroups to make the analysis a little easier.
-    Information about the Airbnb itself will be on df, information about the review will be one df 
-    and iformation about the host will be another df'''
+    Information about the Airbnb itself will be one df, information about the review will be one df 
+    and information about the host will be another df'''
     
     host = df[['host_id', 'host_since', 'host_response_time', 'host_response_rate',
        'host_is_superhost', 'host_total_listings_count',
