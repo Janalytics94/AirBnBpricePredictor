@@ -4,7 +4,7 @@
 ## EDA , check correlation between features, check for multicollinearity etc, vernünftige plots auswählen
     - Ngrams, text blobs Decription etc
 ## Feature Engineering
-    - distance to center (Piccadally Circus)  other districts might be useful if you work there but Airbnb is usually for holiday #done
+    - distance to center (Piccadally Circus) --> get foto of that point in map! other districts might be useful if you work there but Airbnb is usually for holiday #done
     - Host since in years  #done
     - Host is super host might be important, also information about the host if its very detailed Airbnbs might be popular
     - analyze yelp data --> also EDA ? 
