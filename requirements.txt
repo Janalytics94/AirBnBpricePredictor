@@ -1,9 +1,17 @@
 pandas
 numpy
 sklearn
+
 seaborn
-spacy
+folium 
+
 clize
 ipykernel
-folium 
+
 dvc
+
+spacy
+spacytextblob
+#python -m spacy download en_core_web_sm
+
+geopy
