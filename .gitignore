@@ -10,3 +10,4 @@ src/__pycache__
 .gitconfig
 .DS_Store
 .gnupg
+src/features/preprocess/__pycache__/
