@@ -56,6 +56,7 @@ Sentiments analyse but how to handle the different languages?
 
 https://towardsdatascience.com/ai-and-real-state-renting-in-amsterdam-part-1-5fce18238dbc
 papers im ornder uni/AirbnbPrediction
+https://philmohun.medium.com/making-models-airbnb-price-prediction-feature-engineering-and-unstructured-image-analysis-8f0456663fd8
 # Considerung information on restaurants as well using yelp
 # https://towardsdatascience.com/ai-and-real-state-renting-in-amsterdam-part-1-5fce18238dbc
 
@@ -66,4 +67,4 @@ papers im ornder uni/AirbnbPrediction
 # If you are analysing a bigger city that has multiple locations that are considered desirable, you can also run this code as many times as needed with different geographical points. (Don’t forget to change the column names so you don’t overwrite the previous point!).
 For example, there is a financial district close to the Amsterdam Zuid station that could be equally (or even more) relevant to working tenants than living close to the city center. Measuring these various scenarios is more important if you are using methods similar to multiple linear regressions rather than machine-learning statistical algorithms because they are inherently better at recognising non-linear relationships and clusters. For this reason, I won’t include it in this analysis but it is an interesting factor to weight in depending on the statistical method being used.
 
-
+## use open CV for immage detection 

@@ -9,3 +9,4 @@ data/
 src/__pycache__
 .gitconfig
 .DS_Store
+.gnupg

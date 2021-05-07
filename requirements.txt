@@ -15,3 +15,6 @@ spacytextblob
 #python -m spacy download en_core_web_sm
 
 geopy
+
+# image detection 
+opencv-python
