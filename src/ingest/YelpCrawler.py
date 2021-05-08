@@ -24,7 +24,7 @@ def crawl_yelp(target):
     offset = 0
      
     ## loop to iterate over 200 pages of 500 businesses each = 100000 businesses in London 
-    while offset <=200:
+    while offset <=1:
         try:
             params={'term':'Restaurants', 'location': 'london', 'limit': 50, 'offset': offset}
             req = requests.get(url, params=params, headers=headers)

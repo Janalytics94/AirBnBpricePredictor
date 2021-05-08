@@ -18,3 +18,6 @@ images = ImageProcessor.ImageProcessor.getImages('data/images/*.png')
 imgData  = [ImageProcessor.ImageProcessor.imgDetails(image) for image in images]
 brightness = [ImageProcessor.ImageProcessor.getBrightness(image) for image in images]
 colors_BGR = [ImageProcessor.ImageProcessor.channelSplit(image) for image in images]
+
+ImageData = pd.DataFrame({'ImageData': imgData, 'Brightness': brightness, 'BGR': colors_BGR})
+ImageData.to_csv('data/processed/images.csv')
