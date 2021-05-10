@@ -1,0 +1,10 @@
+stages:
+    ingest:
+        cmd: 
+        - ImageCrawler.py data/raw/ data/images/
+        deps: 
+        -  data/raw/
+        -  data/images/
+        outs:
+        - data/images/*.png
+            cache: false

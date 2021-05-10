@@ -35,4 +35,4 @@ ImageData.to_csv('data/processed/images.csv')
 nlp = spacy.load("en_core_web_sm")
 text = clean_description.description.values.tolist()
 processed = [nlp(text) for text in text]
-text = Textprocessor.TextProcessor.
+text = Textprocessor.TextProcessor.get_data(train)

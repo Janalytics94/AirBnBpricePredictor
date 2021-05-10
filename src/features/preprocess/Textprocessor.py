@@ -28,7 +28,7 @@ class TextProcessor():
         lemmas = [f"Token: {token}, lemma: {token.lemma_}" for token in filtered]
         
         return filtered, lemmas
-   # def get_ngrams
+    # def get_ngrams
 
 
-    #def textbloop    
+    # def textbloop    
