@@ -20,7 +20,7 @@ headers = {'Authorization': 'Bearer %s' % api_key}
 offset = 0
     
 ## loop to iterate over 200 pages of 50 businesses each = 10000 businesses in London 
-while offset <=200:
+while offset <=1:
     try:
         params={'term':'Restaurants', 'location': 'london', 'limit': 50, 'offset': offset}
         req = requests.get(url, params=params, headers=headers)

@@ -1,9 +1,12 @@
+# Data 
 data/
+############
 .cache/
 .ssh/
 .vscode/
 .vscode-server/
 .bash_history
+.python_history
 .config/
 .ipython/
 src/__pycache__
