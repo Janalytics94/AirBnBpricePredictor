@@ -1,5 +1,5 @@
 #! /usr/bin/env python3 
-
+#TODO: Crawler Überarbeiten
 import pandas as pd
 import json
 import requests

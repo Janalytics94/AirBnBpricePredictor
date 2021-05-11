@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#TODO: Nonetyoe bei images!
 import cv2
 import glob
 from PIL import Image, ImageStat
@@ -7,8 +8,7 @@ import numpy as np
 class ImageProcessor():
     ''' Class contians method of feature extraction for the images. We want to load images and extract
     Red, Blues and Greens, as well as image data like size etc and brighness '''
-    def __init__(self):
-
+    
     def getImages(self,path):
         
         images = [cv2.imread(file) for file in glob.glob(path)]

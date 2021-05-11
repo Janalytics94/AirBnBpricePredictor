@@ -3,10 +3,13 @@ import pandas as pd
 import urllib.request
 import os 
 import sys 
+#TODO: Another library beautifulsoup!
+
 import time
 
 from clize import run
 from urllib.error import HTTPError
+from urllib.error import ContentTooShortError
 
 def crawl_images(source,df_name, target):
     ''' Crawls all the images provided from the url and safes them into a folder
@@ -25,8 +28,8 @@ def crawl_images(source,df_name, target):
     for i in range(0,len(pictures)):
         try:
             urllib.request.urlretrieve(pictures.iloc[i], target + pictures.index[i] + '.png')
-        except HTTPError as e:
-            print('Picture does not exist')
+        except HTTPError or ContentTooShortError as e:
+            print('Picture does not exist or we are not able to crawl it')
             continue
     ende = time.time()
     print('{:5.3f}s'.format(ende-start)) 
@@ -34,6 +37,7 @@ def crawl_images(source,df_name, target):
     df.to_csv('data/interim/' + df_name)    
     
     return
+    #urllib.error.ContentTooShortError: <urlopen error retrieval incomplete: got only 25616 out of 40886 bytes>
 
 if __name__ == '__main__':
     run(crawl_images)

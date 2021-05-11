@@ -5,16 +5,17 @@
 import spacy
 import pandas as pd
 import numpy as np
+import os
 
-from src.features.preprocess.ImageProcessor import ImageProcessor
-from src.features.preprocess.Textprocessor import Textprocessor 
-from src.features.preprocess.Distance_Calculator import Distance_Calculator
-from src.features.preprocess.Processor import Processor
+from ImageProcessor import ImageProcessor
+from Textprocessor import TextProcessor
+from Distance_Calculator import Distance_Calculator
+from Processor import Processor
 
 from clize import run
 
 
-def rechenknecht(source, df_name, source_images, target_longlat, target_Images):
+def rechenknecht(source, df_name, source_images, target_longlat, target_Images, target_processed_df):
     ''' creates all important features and cleans source dataframes
     params:
     - source: takes in the data path 
@@ -22,46 +23,47 @@ def rechenknecht(source, df_name, source_images, target_longlat, target_Images):
     - source_images: dirctory where all the crawled images are stored
     - target_longlat : path to safe interim results
     - target_images : path to safe interim results
+    - target_processed_df: after cleansing safe the dataframe in data/interim
     '''
     # Initialize all important classes
     processor = Processor()
     distanceCalculator = Distance_Calculator()
     imageProcessor = ImageProcessor()
-    textProcessor  = Textprocessor()
+    textprocessor  = TextProcessor()
 
     path = os.path.join(source + df_name) 
     df = processor.read_df(path, index_col='listing_id')
     df = processor.change_data_types(df)
 
     # Distances 
-    longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
-    longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
-    longlat.to_csv(target_longlat)
-    df.drop(['latitude','longitude'], axis = 1)
+    #longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
+    #longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
+    #longlat.to_csv(target_longlat)
+    df = df.drop(['latitude','longitude'], axis = 1)
    
     # Images 
-    images = imageProcessor.getImages(source_images)
-    imgData  = [imageProcessor.imgDetails(image) for image in images]
-    brightness = [imageProcessor.getBrightness(image) for image in images]
-    colors_BGR = [imageProcessor.channelSplit(image) for image in images]
+    #images = imageProcessor.getImages(source_images)
+    #imgData  = [imageProcessor.imgDetails(image) for image in images]
+    #brightness = [imageProcessor.getBrightness(image) for image in images]
+    #colors_BGR = [imageProcessor.channelSplit(image) for image in images]
 
-    ImageData = pd.DataFrame({'ImageData': imgData, 'Brightness': brightness, 'BGR': colors_BGR})
-    ImageData.to_csv(target_Images)
+    #ImageData = pd.DataFrame({'ImageData': imgData, 'Brightness': brightness, 'BGR': colors_BGR})
+    #ImageData.to_csv(target_Images)
 
     # Membership
     df = processor.membership(df)
-    df.drop(['host_since_year','host_since'], axis = 1)
+    df = df.drop(['host_since_year','host_since'], axis = 1)
     
     # Text Data
     #Get Clean Data Description
-    #clean_description = train[pd.isna(train.description)==False]    
+    df = textprocessor.description_length(df)
     #nlp = spacy.load("en_core_web_sm")
     #text = clean_description.description.values.tolist()
     #processed = [nlp(text) for text in text]
     #text = Textprocessor.TextProcessor.get_data(train)
     # Save the clean dataframe without the cleansed columns to interim file
     
-    df.to_csv('data/interim/' + df_name)
+    df.to_csv(target_processed_df + df_name)
 
     return
 

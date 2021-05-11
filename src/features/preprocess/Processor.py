@@ -5,7 +5,6 @@ import os
 
 class Processor():
     ''' Methods to clean and develop numeric and categorical features in dataframe'''
-    def __init__(self):
 
     def read_df(self,path: str = os.path.join(os.getcwd(), '/data/<My_data>.csv'), **kwargs) -> pd.DataFrame:
         """
@@ -88,7 +87,8 @@ class Processor():
         
         return clean
 
-    # def hot_encode     
+   
+
 
 
         

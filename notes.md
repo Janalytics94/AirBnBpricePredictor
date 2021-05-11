@@ -1,5 +1,5 @@
 # TODO
-## implement dvc
+## Check Crawlers
 ### überarbeite docker image but not so important at first 
 ## EDA , check correlation between features, check for multicollinearity etc, vernünftige plots auswählen
     - Ngrams, text blobs Decription etc

@@ -11,8 +11,7 @@ class Distance_Calculator:
     long_poi : takes the longitue of the point of interest
     lat_poi : takes the lattitude of the point of interest
     
-    '''
-    def __init__(self): 
+    ''' 
 
     def zip_objects(self, df, long_poi, lat_poi):
         ''' Zip those objects'''
@@ -27,9 +26,9 @@ class Distance_Calculator:
     def get_distance(self,originCoordinates, poiCoordinates):
         ''' calculate distance between the origin and point of interest'''
         dist = geopy.distance.geodesic(originCoordinates, poiCoordinates).km
-   
+
         return dist
-       
+    
 
 
 
