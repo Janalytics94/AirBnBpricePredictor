@@ -4,8 +4,9 @@ import spacy
 
 class TextProcessor():
     ''' Class to initilaize text processing '''
+    def __init__(self):
 
-    def get_data(df):
+    def get_data(self,df):
         '''remove missing values / nan in texts'''
         columns = df.columns.tolist()
         if 'description ' in columns:
@@ -17,7 +18,14 @@ class TextProcessor():
 
         return text
 
-    def process(text):
+    def description_length(self,df):
+        ''' Calculates Description Length of each Airbnb'''
+        df['description_length'] = df.description.apply(lambda x: len(x))
+
+        return df
+
+
+    def process(self,text):
         ''' NLP on text data '''
         
         nlp = spacy.load("en_core_web_sm")

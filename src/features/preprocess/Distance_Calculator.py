@@ -12,6 +12,7 @@ class Distance_Calculator:
     lat_poi : takes the lattitude of the point of interest
     
     '''
+    def __init__(self): 
 
     def zip_objects(self, df, long_poi, lat_poi):
         ''' Zip those objects'''

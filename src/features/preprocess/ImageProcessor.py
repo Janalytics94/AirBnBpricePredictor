@@ -7,21 +7,22 @@ import numpy as np
 class ImageProcessor():
     ''' Class contians method of feature extraction for the images. We want to load images and extract
     Red, Blues and Greens, as well as image data like size etc and brighness '''
+    def __init__(self):
 
-    def getImages(path):
+    def getImages(self,path):
         
         images = [cv2.imread(file) for file in glob.glob(path)]
         
         return images
         
-    def imgDetails(img):
+    def imgDetails(self,img):
         # accepts an image of format -> cv2.imread('image path')
         height, width, channels = img.shape
         pixels = img.size
         size = [height,width]
         return size, channels, pixels
 
-    def channelSplit(img):
+    def channelSplit(self,img):
         # accepts an image of format -> cv2.imread('image path')
         [B,G,R] = np.dsplit(img,img.shape[-1])
         blue = np.mean(B)
@@ -30,7 +31,7 @@ class ImageProcessor():
         
         return blue, green, red
 
-    def getBrightness(img):
+    def getBrightness(self,img):
         # opens image in current working directory, converts to greyscale, and pulls a float value for brightness
         img_src = Image.fromarray(img).convert('L')
         stat = ImageStat.Stat(img_src)
