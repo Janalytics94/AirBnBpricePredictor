@@ -32,13 +32,13 @@ def rechenknecht(source, df_name, source_images, target_longlat, target_Images, 
     textprocessor  = TextProcessor()
 
     path = os.path.join(source + df_name) 
-    df = processor.read_df(path, index_col='listing_id')
+    df = pd.read_csv(path, index_col='listing_id')
     df = processor.change_data_types(df)
 
     # Distances 
-    #longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
-    #longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
-    #longlat.to_csv(target_longlat)
+    longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
+    longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
+    longlat.to_csv(target_longlat)
     df = df.drop(['latitude','longitude'], axis = 1)
    
     # Images 
@@ -63,7 +63,7 @@ def rechenknecht(source, df_name, source_images, target_longlat, target_Images, 
     #text = Textprocessor.TextProcessor.get_data(train)
     # Save the clean dataframe without the cleansed columns to interim file
     
-    df.to_csv(target_processed_df + df_name)
+    df.to_csv(target_processed_df)
 
     return
 

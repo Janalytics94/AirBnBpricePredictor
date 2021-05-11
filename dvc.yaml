@@ -9,4 +9,17 @@ stages:
             cache: false
 
     preprocess: # Images, Long Lat, Text Data, Other Features
-
+        cmd:
+        - ./src/features/preprocess/Rechenknecht.py  
+        - data/raw/ 
+        - test.csv 
+        - data/images/test/ 
+        - data/interim/test/longlat.csv 
+        - data/images/test/  
+        - data/interim/test/test.csv
+    selection:
+        cmd:
+        - ./src/features/select/combine.py 
+        - data/interim/train/ 
+        - data/canonical/train/train.csv
+# Data Pathas anpassen/flexibel in stages gestalten --> How?

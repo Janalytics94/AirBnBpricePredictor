@@ -4,6 +4,7 @@ import glob
 import pandas as pd
 from clize import run
 
+# PRICE NOT IN TEST! Take care of it!
 
 def combine(source, target):
     '''combines all intermediate results to a dataframe and safes it into data/canonical.
@@ -12,9 +13,10 @@ def combine(source, target):
     dfs  = [pd.read_csv(file, index_col='listing_id') for file in glob.glob(path)]
     dfs[0]['dist']
     # Additional host_has_profile_pic, host_identity_verified, host_is_superhost
-    train_processed = dfs[1][['description_length', 'host_memship_in_years','accommodates','guests_included','beds', 'bathrooms', 'bedrooms','review_scores_cleanliness', 'review_scores_location', 'price']].merge( dfs[0]['dist'], right_on='listing_id', left_on='listing_id')
-    train_processed = train_processed[train_processed.description_length.isna()!=True]
-    train_processed.to_csv(target)
+    # 'review_scores_cleanliness', 'review_scores_location'
+    processed = pd.concat([dfs[1][['description_length', 'host_memship_in_years','accommodates','guests_included','beds', 'bathrooms', 'bedrooms']],dfs[0]['dist']], axis=1)
+    processed = processed[processed.isna()!=True]
+    processed.to_csv(target)
 
     return
 
