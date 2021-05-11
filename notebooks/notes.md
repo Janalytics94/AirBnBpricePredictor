@@ -1,5 +1,6 @@
 # TODO
 ## Check Crawlers
+## Find out what to do with missing values & don't drop missing values in test data 
 ## Consider Test Data as well nd think about that when you consider calculating steps!
 ### überarbeite docker image but not so important at first 
 
