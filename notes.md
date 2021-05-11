@@ -1,6 +1,8 @@
 # TODO
 ## Check Crawlers
+## Consider Test Data as well nd think about that when you consider calculating steps!
 ### überarbeite docker image but not so important at first 
+
 ## EDA , check correlation between features, check for multicollinearity etc, vernünftige plots auswählen
     - Ngrams, text blobs Decription etc
 ## Feature Engineering
