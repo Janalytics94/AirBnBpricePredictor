@@ -69,19 +69,6 @@ https://medium.com/reputation-com-datascience-blog/keywords-extraction-with-ngra
 
 
 # BUT AIRBNB is more for holiday so Piccadally circus should be fine
-# If you are analysing a bigger city that has multiple locations that are considered desirable, you can also run this code as many times as needed with different geographical points. (Don’t forget to change the column names so you don’t overwrite the previous point!).
-For example, there is a financial district close to the Amsterdam Zuid station that could be equally (or even more) relevant to working tenants than living close to the city center. Measuring these various scenarios is more important if you are using methods similar to multiple linear regressions rather than machine-learning statistical algorithms because they are inherently better at recognising non-linear relationships and clusters. For this reason, I won’t include it in this analysis but it is an interesting factor to weight in depending on the statistical method being used.
 
 ## use open CV for immage detection 
-#Taking a step back, we can think of a few things in images that may impact the price:
-#- Are the floors carpet or hardwood?
-#- Are the walls painted or wallpaper? Paintings or posters?
-#- Does the host have plants? Are they alive and healthy?
-#- Is the picture well-lit and inviting?
-
-#To keep our scope narrow, we will pull four values from the image that may be of value:
-#Brightness je mehr licht desto besser
-#2. # of red pixels
-#3. # of blue pixels
-#4. # of green pixels
 
