@@ -10,6 +10,7 @@ data/
 .config/
 .ipython/
 src/__pycache__
+src/features/__pycache__/
 .gitmessage.txt
 .gitconfig
 .DS_Store

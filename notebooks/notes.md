@@ -64,7 +64,7 @@ https://www.analyticsvidhya.com/blog/2019/08/3-techniques-extract-features-from-
 https://medium.com/reputation-com-datascience-blog/keywords-extraction-with-ngram-and-modified-skip-gram-based-on-spacy-14e5625fce23
 # Considerung information on restaurants as well using yelp
 # https://towardsdatascience.com/ai-and-real-state-renting-in-amsterdam-part-1-5fce18238dbc
-
+# https://studymachinelearning.com/text-preprocessing-handle-emoji-emoticon/
 
 
 
