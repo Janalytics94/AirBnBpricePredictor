@@ -24,6 +24,13 @@ class TextProcessor():
         return df
 
 
+    def clean(self, text):
+        ''' Removes \n and \r from data set turn everything to lower case'''
+        text = text.replace("\r\n\\","")
+        text = text.lower()
+
+        return text     
+
     def process(self, text):
         ''' NLP on text data '''
         
@@ -35,7 +42,4 @@ class TextProcessor():
         lemmas = [f"Token: {token}, lemma: {token.lemma_}" for token in filtered]
         
         return filtered, lemmas
-        # def get_ngrams
-
-
-        # def textbloop    
+       

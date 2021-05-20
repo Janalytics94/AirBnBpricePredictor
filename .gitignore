@@ -10,7 +10,9 @@ data/
 .config/
 .ipython/
 src/__pycache__
+.gitmessage.txt
 .gitconfig
 .DS_Store
 .gnupg
 src/features/preprocess/__pycache__/
+.keras
