@@ -54,7 +54,9 @@ class TextProcessor():
     def clean(self, text):
         ''' Removes \n and \r from data set turn everything to lower case'''
 
-        text = text.replace("\r\n\\\t","")
+        text = text.replace("\r","")
+        text = text.replace("\n","")
+        text = text.replace("\\","")
         text = text.lower()
 
         return text     
