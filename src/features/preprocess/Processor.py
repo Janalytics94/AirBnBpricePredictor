@@ -2,6 +2,7 @@
 import datetime
 import pandas as pd
 import os 
+import geopy
 
 class Processor():
     ''' Methods to clean and develop numeric and categorical features in dataframe'''
@@ -70,8 +71,44 @@ class Processor():
         clean = df[df.host_since.isnull()!=True]
         clean['host_since_year'] = clean['host_since'].apply(lambda x: round(x.year,0))
         clean['host_memship_in_years'] = datetime.date.today().year - clean.host_since_year
-        
+
         return clean
+
+    def get_missing_zipcodes(self, df, latitude, longitude):
+        ''' fill up the missing values in zipcodes'''
+        geolocator = geopy.Nominatim(user_agent='http')
+        location = geolocator.reverse("{},{}".format(df[latitude], df[longitude]))
+
+        return location.raw['address']
+
+    def NaNs(self, df):
+        ''' methods to deal with the missing values in our data set '''
+        values = {'bathrooms': 1, 'bedrooms': 1, 'beds': 1}
+        df = df.fillna(value=values)
+        # get df where zipcodes are missing
+        missing_zipcodes = df[df.zipcode.isnull()==True][['longitude', 'latitude']]
+        indecies = missing_zipcodes.index.values.tolist()
+        # get zipcodes using function get_missing_zipcodes
+        zipcodes = missing_zipcodes.apply(Processor().get_missing_zipcodes, axis =1, latitude='latitude', longitude='longitude').values.tolist()
+        zipcode = []
+        for index in range(len(zipcodes)):
+            for key in zipcodes[index]:
+                try:
+                    zipcode.append(zipcodes[index]['postcode'])
+                except KeyError as e:
+                    continue
+        zipcodes = list(set(zipcode))
+        dict_ = dict(zip(indecies,zipcodes))
+        df['zipcode'] = df.replace(dict_)
+
+        return df
+    
+    
+
+        
+
+        
+        
 
    
 

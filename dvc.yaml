@@ -1,6 +1,8 @@
 stages:
     ingest: Params file possible
         cmd: 
+        - ./src/ingest/YelpCrawler.py
+        - ./src/ingest/ImageCrawler.py /root/data/raw/ train.csv /root/data/images/
         - ./src/ingest/ImageCrawler.py data/raw/ train.csv /root/data/images/
         -  data/raw/
         -  data/images/ 

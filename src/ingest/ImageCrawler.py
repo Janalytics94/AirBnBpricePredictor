@@ -27,14 +27,12 @@ def crawl_images(source,df_name, target):
     start = time.time()
     for i in range(0,len(pictures)):
         try:
-            urllib.request.urlretrieve(pictures.iloc[i], target + pictures.index[i] + '.png')
+            urllib.request.urlretrieve(pictures.iloc[i], target + df_name + pictures.index[i] + '.png')
         except HTTPError or ContentTooShortError as e:
             print('Picture does not exist or we are not able to crawl it')
             continue
     ende = time.time()
-    print('{:5.3f}s'.format(ende-start)) 
-    df.drop('picture_url', axis=1)
-    df.to_csv('data/interim/' + df_name)    
+    print('{:5.3f}s'.format(ende-start))  
     
     return
     #urllib.error.ContentTooShortError: <urlopen error retrieval incomplete: got only 25616 out of 40886 bytes>
