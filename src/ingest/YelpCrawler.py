@@ -17,7 +17,7 @@ zipcodes = []
 
 headers = {'Authorization': 'Bearer %s' % api_key}
     
-## loop to iterate over 200 pages of 50 businesses each = 100000 businesses in London 
+## loop to iterate over 20000 pages of 50 businesses each = 100000 businesses in London 
 for offset in range(0,20000):
     try:
         params={'term':'Restaurants', 'location': 'london', 'limit': 50, 'offset': offset}
@@ -29,6 +29,7 @@ for offset in range(0,20000):
         continue
     for n in range(0,50):
         try:
+            # Hätte man wahrscheinlich schneller über css Selektorwn hinbekommen
             price_data = parsed["businesses"][n]['price']
             ratings_data = parsed["businesses"][n]['rating']
             zipcode_data = parsed["businesses"][n]["location"]["zip_code"]
