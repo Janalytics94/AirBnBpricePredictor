@@ -12,6 +12,7 @@
     - Host is super host might be important, also information about the host if its very detailed Airbnbs might be popular
     - analyze yelp data --> also EDA ? 
     - Text Länge 
+    - Latent dirchlent allocation 
     - Sentiment Analyse reveiws --> multiple languages
     - Image Preprocessing 
 ## Feature Selection

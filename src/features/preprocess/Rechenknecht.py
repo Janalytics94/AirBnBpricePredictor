@@ -15,7 +15,7 @@ from Processor import Processor
 from clize import run
 
 
-def rechenknecht(source, df_name, source_images, target_longlat, target_Images, target_processed_df):
+def rechenknecht(source, source_images, target):
     ''' creates all important features and cleans source dataframes
     params:
     - source: takes in the data path 
@@ -31,9 +31,11 @@ def rechenknecht(source, df_name, source_images, target_longlat, target_Images, 
     imageProcessor = ImageProcessor()
     textprocessor  = TextProcessor()
 
-    path = os.path.join(source + df_name) 
-    df = pd.read_csv(path, index_col='listing_id')
+    # Use processing types for standard preprocessing
+    df = pd.read_csv(source, index_col='listing_id')
     df = processor.change_data_types(df)
+    df = processor.NaNs(df)
+
 
     # Distances 
     longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
