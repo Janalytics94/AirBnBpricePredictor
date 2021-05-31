@@ -102,6 +102,20 @@ class Processor():
         df['zipcode'] = df.replace(dict_)
 
         return df
+
+    def get_relevant_features(self, df):
+        cols = df.columns.values.tolist()
+        if 'price' in cols:
+            df = df[[
+                'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
+                'host_identity_verified','host_has_profile_pic','host_is_superhost' ,'bed_type','room_type' #'property_type'
+            ]]
+        else:
+            df = df[[
+                'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
+                'host_identity_verified','host_has_profile_pic','host_is_superhost','bed_type', 'room_type' #'property_type'
+                ]]
+        return df
     
     def hot_encode(self,df):
         ''' Hot encode the following features:
@@ -109,8 +123,8 @@ class Processor():
             * room_type
             * property_type
         '''
-        dummies = pd.get_dummies(df[['bed_type', 'room_type', 'property_type']])
-        df = df.drop(['bed_type', 'room_type', 'property_type'])
+        dummies = pd.get_dummies(df[['bed_type', 'room_type']]) #'property_type'
+        df = df.drop(['bed_type', 'room_type'], axis=1) #'property_type'
 
         X = pd.concat([dummies, df], axis=1)  
 

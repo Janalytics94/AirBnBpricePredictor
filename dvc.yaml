@@ -25,3 +25,5 @@ stages:
         - data/interim/train/ 
         - data/canonical/train/train.csv
 # Data Pathas anpassen/flexibel in stages gestalten --> How?
+
+./src/features/preprocess/Rechenknecht.py /root/data/raw /root/data/images/ /root/data/canonical
