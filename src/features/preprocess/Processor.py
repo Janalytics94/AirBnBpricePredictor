@@ -74,6 +74,17 @@ class Processor():
 
         return clean
 
+    def host_response_rate_to_probabilities(self,df):  
+        ''' strip % from column, 
+        turn string to numeric features and 
+        change them to probabilities 
+        '''
+        df['host_response_rate'] = df['host_response_rate'].apply(lambda x: x.strip('%'))
+        df['host_response_rate'] = df['host_response_rate'].apply(lambda x: float(x))
+        df['host_response_rate'] = df['host_response_rate'].apply(lambda x: x/100)
+
+        return df
+
     def get_missing_zipcodes(self, df, latitude, longitude):
         ''' fill up the missing values in zipcodes'''
         geolocator = geopy.Nominatim(user_agent='http')
@@ -108,12 +119,14 @@ class Processor():
         if 'price' in cols:
             df = df[[
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
-                'host_identity_verified','host_has_profile_pic','host_is_superhost' ,'bed_type','room_type' #'property_type'
+                'host_identity_verified','host_has_profile_pic','host_is_superhost' ,'bed_type','room_type',
+                'experience_offered' #'property_type'
             ]]
         else:
             df = df[[
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
-                'host_identity_verified','host_has_profile_pic','host_is_superhost','bed_type', 'room_type' #'property_type'
+                'host_identity_verified','host_has_profile_pic','host_is_superhost','bed_type','room_type'
+                'experience_offered' #'property_type'
                 ]]
         return df
     

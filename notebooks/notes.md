@@ -29,7 +29,11 @@
 ## Safe Data and Conclusion/ Outlook 
   -- Yelp data was useful or not , outlook price dropping Time Series Analysis 
 
-
+# TO DO
+# Image Processing 
+# Text Processing 
+# yelp data 
+# merge data 
 # Think about using nans as gropu and weghjt them with -1
 # References
 
