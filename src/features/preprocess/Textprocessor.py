@@ -2,6 +2,7 @@
 
 # NLP in general
 import spacy
+from collections import Counter
 # to handle different langauges in reviews
 from google_trans_new import google_translator
 # emojies
@@ -65,11 +66,19 @@ class TextProcessor():
         ''' Basic NLP on text data (remove stopwords, lemmatizations, tokens) might need some additional work'''
         
         nlp = spacy.load("en_core_web_sm")
-        docs = [nlp(text) for text in text]
-        tokens = [token for token in doc for doc in docs]
+        doc = nlp(text) 
+        tokens = [token for token in doc]
         # remove stopwords
         filtered = [token for token in tokens if not token.is_stop]
-        lemmas = [f"Token: {token}, lemma: {token.lemma_}" for token in filtered]
-        
-        return filtered, lemmas
+        # remove puntuations
+        filtered = [token for token in filtered if not token.is_punct]
+        # remove white spaces 
+        filtered = [token for token in filtered if not token.is_space ]
+        # lemmatize and turn it to lowercase
+        lemmas = [token.lemma_.strip().lower() for token in filtered]
+        word_freq = Counter(lemmas)
+        # 5 commonly occurring words with their frequencies
+        common_words = word_freq.most_common(5)
+
+        return lemmas, common_words
        

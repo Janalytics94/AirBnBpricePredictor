@@ -103,6 +103,20 @@ class Processor():
 
         return df
     
+    def hot_encode(self,df):
+        ''' Hot encode the following features:
+            * bed_type
+            * room_type
+            * property_type
+        '''
+        dummies = pd.get_dummies(df[['bed_type', 'room_type', 'property_type']])
+        df = df.drop(['bed_type', 'room_type', 'property_type'])
+
+        X = pd.concat([dummies, df], axis=1)  
+
+        return X  
+
+    
     
 
         
