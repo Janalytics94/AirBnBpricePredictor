@@ -37,6 +37,8 @@ def rechenknecht(source, images, target):
         df = pd.read_csv(os.path.join(source+'/'+ df_name + '.csv'), index_col='listing_id')
         df = processor.change_data_types(df)
         df = processor.NaNs(df)
+        df = processor.host_response_rate_to_probabilities(df)
+        
 
 
         # Distances 

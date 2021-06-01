@@ -34,7 +34,9 @@
 # Text Processing 
 # yelp data 
 # merge data 
-# Think about using nans as gropu and weghjt them with -1
+# guck dir jedes feature genau an
+# wähle relevante features aus 
+# notebook aufräumen
 # References
 
 

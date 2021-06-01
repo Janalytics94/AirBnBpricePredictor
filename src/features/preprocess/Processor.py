@@ -3,6 +3,7 @@ import datetime
 import pandas as pd
 import os 
 import geopy
+import numpy as np
 
 class Processor():
     ''' Methods to clean and develop numeric and categorical features in dataframe'''
@@ -65,25 +66,52 @@ class Processor():
 
         return host, airbnb, reviews_scores
         
-
     def membership(self,df):
         ''' caluclates Membership of hosts in years '''
+
         clean = df[df.host_since.isnull()!=True]
         clean['host_since_year'] = clean['host_since'].apply(lambda x: round(x.year,0))
         clean['host_memship_in_years'] = datetime.date.today().year - clean.host_since_year
+        clean['host_memship_in_years'] = clean['host_memship_in_years'].astype('int')
+        ## fill NaNs with mean
+        mean_membership = clean['host_memship_in_years'].mean()
+        df['host_since_year'] = df['host_since'].apply(lambda x: round(x.year,0))
+        df['host_memship_in_years'] = datetime.date.today().year - df.host_since_year
+        df['host_memship_in_years'] = df['host_memship_in_years'].fillna(mean_membership)
+        df = df.drop(['host_since_year', 'host_since'], axis=1)
 
-        return clean
+        return df
 
     def host_response_rate_to_probabilities(self,df):  
         ''' strip % from column, 
         turn string to numeric features and 
-        change them to probabilities 
+        change them to probabilities , E.G How possible is it that the host answers ?
         '''
+        df['host_response_rate'] = df['host_response_rate'].apply(lambda x: str(x))
         df['host_response_rate'] = df['host_response_rate'].apply(lambda x: x.strip('%'))
         df['host_response_rate'] = df['host_response_rate'].apply(lambda x: float(x))
         df['host_response_rate'] = df['host_response_rate'].apply(lambda x: x/100)
+        # host does not answer. 
+        df['host_response_rate'] = df['host_response_rate'].fillna(0) 
+        df['host_response_rate'] = df['host_response_rate'].astype('int')
 
         return df
+
+    def effect_coding_host_response_time(self, df):
+        ''' Effect Coding for the time a host needs to answer 
+        within an hour --> 1 
+        within a few hours --> 1
+        NaN --> not at all e.g -1
+        within a day ---> 0
+        a few days or more --> 0
+        '''
+        df['host_response_time'] = df['host_response_time'].apply(lambda x: str(x))
+        df = df.replace({'host_response_time': {'within an hour': 1, 'within a few hours': 1,'within a day': 0, 'a few days or more':0}})
+        df['host_response_time'] = df['host_response_time'].fillna(-1) 
+        df['host_response_time'] = df['host_response_time'].astype('int32')
+
+        return df
+
 
     def get_missing_zipcodes(self, df, latitude, longitude):
         ''' fill up the missing values in zipcodes'''
@@ -120,13 +148,15 @@ class Processor():
             df = df[[
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,'bed_type','room_type',
-                'experience_offered' #'property_type'
+                'host_response_rate', 'host_response_time', 'host_memship_in_years'
+                #'experience_offered' #'property_type'
             ]]
         else:
             df = df[[
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
-                'host_identity_verified','host_has_profile_pic','host_is_superhost','bed_type','room_type'
-                'experience_offered' #'property_type'
+                'host_identity_verified','host_has_profile_pic','host_is_superhost','bed_type','room_type',
+                'host_response_rate', 'host_response_time', 'host_memship_in_years'
+                #'experience_offered' #'property_type'
                 ]]
         return df
     
