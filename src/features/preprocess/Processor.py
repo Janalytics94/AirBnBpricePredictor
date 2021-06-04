@@ -116,7 +116,6 @@ class Processor():
 
         return df
 
-
     def get_missing_zipcodes(self, df, latitude, longitude):
         ''' fill up the missing values in zipcodes'''
         geolocator = geopy.Nominatim(user_agent='http')
@@ -126,7 +125,10 @@ class Processor():
 
     def NaNs(self, df):
         ''' methods to deal with the missing values in our data set '''
-        values = {'bathrooms': 1, 'bedrooms': 1, 'beds': 1}
+        values = {
+            'bathrooms': 1, 'bedrooms': 1, 'beds': 1,
+            'host_total_listings_count': 1, 'reviews_per_month': 0
+        }
         df = df.fillna(value=values)
         # get df where zipcodes are missing
         missing_zipcodes = df[df.zipcode.isnull()==True][['longitude', 'latitude']]
@@ -146,6 +148,17 @@ class Processor():
 
         return df
 
+    def drop_neighboorhood(self, df):
+        '''
+        drop neighbourhood as we already have neighbourhood_cleansed
+        '''
+        df = df.drop(['neighbourhood'], axis=1)
+
+        return df
+
+
+        
+
     def get_relevant_features(self, df):
         cols = df.columns.values.tolist()
         if 'price' in cols:
@@ -153,7 +166,7 @@ class Processor():
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years','longitude', 'latitude'
+                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month'#'longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
         else:
@@ -161,7 +174,8 @@ class Processor():
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost',
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years','longitude', 'latitude'
+                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month'
+                #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]
         return df
@@ -211,22 +225,22 @@ class Processor():
 
         return feature_layer
 
-        def create_train_validation_frames(self,X,Y):
-            ''' 
-            Create train and validation set to evaluate model performance of 
-            our neural network 
-            '''
-            scaler = StandardScaler()
-            train, validate, y_train, y_validate = train_test_split(X,Y, test_size=0.2, shuffle=True, random_state=0)
-            train = scaler.fit_transform(train)
-            vailidate = scaler.fit_transform(validate)
-            # Turn everything into a numpy array
-            #train = np.asarray(train).astype(np.float32)
-           # validate = np.asarray(validate).astype(np.float32)
-           # y_train = np.asarray(y_train).astype(np.float32)
-            #y_validate = np.asarray(y_validate).astype(np.float32)
-            
-            return train, validate, y_train, y_validate
+    def create_train_validation_frames(self,train,target):
+        ''' 
+        Create train and validation set to evaluate model performance of 
+        our neural network 
+        '''
+        scaler = StandardScaler()
+        train, validate, y_train, y_validate = train_test_split(train,target, test_size=0.2, shuffle=True, random_state=0)
+        train = scaler.fit_transform(train)
+        vailidate = scaler.fit_transform(validate)
+        # Turn everything into a numpy array
+        #train = np.asarray(train).astype(np.float32)
+        # validate = np.asarray(validate).astype(np.float32)
+        # y_train = np.asarray(y_train).astype(np.float32)
+        #y_validate = np.asarray(y_validate).astype(np.float32)
+        
+        return train, validate, y_train, y_validate
 
 
     

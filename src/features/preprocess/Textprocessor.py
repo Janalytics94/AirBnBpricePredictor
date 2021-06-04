@@ -58,6 +58,8 @@ class TextProcessor():
         text = text.replace("\r","")
         text = text.replace("\n","")
         text = text.replace("\\","")
+        text = text.strip('{')
+        text = text.strip('}')
         text = text.lower()
 
         return text     

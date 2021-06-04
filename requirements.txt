@@ -37,6 +37,7 @@ ftfy==6.0.1
 funcy==1.15
 future==0.18.2
 gast==0.4.0
+gensim==4.0.1
 geographiclib==1.50
 geopy==2.1.0
 gitdb==4.0.7
@@ -161,5 +162,6 @@ wcwidth==0.2.5
 Werkzeug==2.0.1
 wordcloud==1.8.1
 wrapt==1.12.1
+xgboost==1.0.1
 xmltodict==0.12.0
 zc.lockfile==2.0
