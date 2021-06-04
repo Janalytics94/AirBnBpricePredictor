@@ -4,6 +4,10 @@ import pandas as pd
 import os 
 import geopy
 import numpy as np
+import tensorflow as tf
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 class Processor():
     ''' Methods to clean and develop numeric and categorical features in dataframe'''
@@ -147,15 +151,17 @@ class Processor():
         if 'price' in cols:
             df = df[[
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
-                'host_identity_verified','host_has_profile_pic','host_is_superhost' ,'bed_type','room_type',
-                'host_response_rate', 'host_response_time', 'host_memship_in_years'
+                'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
+                'bed_type','room_type','host_response_rate', 'host_response_time', 
+                'host_memship_in_years','longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
         else:
             df = df[[
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
-                'host_identity_verified','host_has_profile_pic','host_is_superhost','bed_type','room_type',
-                'host_response_rate', 'host_response_time', 'host_memship_in_years'
+                'host_identity_verified','host_has_profile_pic','host_is_superhost',
+                'bed_type','room_type','host_response_rate', 'host_response_time', 
+                'host_memship_in_years','longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]
         return df
@@ -172,6 +178,56 @@ class Processor():
         X = pd.concat([dummies, df], axis=1)  
 
         return X  
+    
+    def feature_cross(self, df):
+        ''' Prepare Data for Feature Cross,
+        using 100x100 grid
+        '''
+        max_long = df.longitude.max()
+        min_long = df.longitude.min()
+        diff_long = max_long - min_long
+        long_boundaries = []
+
+        for i in np.arange(min_long, max_long, diff_long):
+            long_boundaries.append(min_long+i*diff_long)
+
+        max_lat = df.latitude.max()
+        min_lat = df.latitude.min()
+        diff_lat = max_lat-min_lat
+        lat_boundaries = []
+
+        for i in np.arange(min_lat, max_lat, diff_lat):
+            lat_boundaries.append(min_lat+i*diff_lat)
+        
+        long_marked = tf.feature_column.bucketized_column(
+            tf.feature_column.numeric_column('longitude'), boundaries=long_boundaries
+        )
+        lat_marked = tf.feature_column.bucketized_column(
+            tf.feature_column.numeric_column('latitude'), boundaries=lat_boundaries
+        )
+
+        crossed_feature = tf.feature_column.crossed_column([long_marked, lat_marked], hash_bucket_size=100)
+        feature_layer = tf.keras.layers.DenseFeatures(tf.feature_column.indicator_column(crossed_feature))
+
+        return feature_layer
+
+        def create_train_validation_frames(self,X,Y):
+            ''' 
+            Create train and validation set to evaluate model performance of 
+            our neural network 
+            '''
+            scaler = StandardScaler()
+            train, validate, y_train, y_validate = train_test_split(X,Y, test_size=0.2, shuffle=True, random_state=0)
+            train = scaler.fit_transform(train)
+            vailidate = scaler.fit_transform(validate)
+            # Turn everything into a numpy array
+            #train = np.asarray(train).astype(np.float32)
+           # validate = np.asarray(validate).astype(np.float32)
+           # y_train = np.asarray(y_train).astype(np.float32)
+            #y_validate = np.asarray(y_validate).astype(np.float32)
+            
+            return train, validate, y_train, y_validate
+
 
     
     

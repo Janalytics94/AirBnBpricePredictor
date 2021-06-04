@@ -1,8 +1,7 @@
 # TODO
-## Check Crawlers
-## Find out what to do with missing values & don't drop missing values in test data 
+## Explainb Feature Cross mathimatically
 ## Consider Test Data as well nd think about that when you consider calculating steps!
-### überarbeite docker image but not so important at first 
+ 
 
 ## EDA , check correlation between features, check for multicollinearity etc, vernünftige plots auswählen
     - Ngrams, text blobs Decription etc
@@ -75,6 +74,7 @@ https://medium.com/reputation-com-datascience-blog/keywords-extraction-with-ngra
 # https://towardsdatascience.com/ai-and-real-state-renting-in-amsterdam-part-1-5fce18238dbc
 # https://studymachinelearning.com/text-preprocessing-handle-emoji-emoticon/
 
+https://medium.com/riga-data-science-club/geographic-coordinate-encoding-with-tensorflow-feature-columns-e750ae338b7c
 
 
 # BUT AIRBNB is more for holiday so Piccadally circus should be fine
