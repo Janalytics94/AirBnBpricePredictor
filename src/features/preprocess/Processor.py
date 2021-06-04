@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 class Processor():
     ''' Methods to clean and develop numeric and categorical features in dataframe'''
@@ -148,11 +148,11 @@ class Processor():
 
         return df
 
-    def drop_neighboorhood(self, df):
+    def drop_features(self, df):
         '''
         drop neighbourhood as we already have neighbourhood_cleansed
         '''
-        df = df.drop(['neighbourhood'], axis=1)
+        df = df.drop(['neighbourhood', 'picture_url', 'summary', 'space'], axis=1)
 
         return df
 
@@ -225,15 +225,18 @@ class Processor():
 
         return feature_layer
 
-    def create_train_validation_frames(self,train,target):
+    def create_train_validation_frames(self,train,target, test):
         ''' 
         Create train and validation set to evaluate model performance of 
         our neural network 
         '''
-        scaler = StandardScaler()
+        
+        mn = MinMaxScaler()
+    
         train, validate, y_train, y_validate = train_test_split(train,target, test_size=0.2, shuffle=True, random_state=0)
-        train = scaler.fit_transform(train)
-        vailidate = scaler.fit_transform(validate)
+        x_train_scaled = pd.DataFrame(mn.fit_transform(train), columns = train.columns)
+        x_validate_scaled = pd.DataFrame(mn.fit_transform(validate), columns = validate.columns)
+        x_test_scaled = pd.DataFrame(mn.fit_transform(test), columns = test.columns)
         # Turn everything into a numpy array
         #train = np.asarray(train).astype(np.float32)
         # validate = np.asarray(validate).astype(np.float32)
