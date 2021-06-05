@@ -158,7 +158,6 @@ class Processor():
 
 
         
-
     def get_relevant_features(self, df):
         cols = df.columns.values.tolist()
         if 'price' in cols:

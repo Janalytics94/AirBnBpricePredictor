@@ -15,7 +15,7 @@ from Processor import Processor
 from clize import run
 
 
-def rechenknecht(source, images, target):
+def rechenknecht(source, target):
     ''' creates all important features and cleans source dataframes
     params:
     - source: takes in the data path 
@@ -34,43 +34,43 @@ def rechenknecht(source, images, target):
     
     for df_name in df_names:
         # Use processing types for standard preprocessing
-        df = pd.read_csv(os.path.join(source+'/'+ df_name + '.csv'), index_col='listing_id')
-        df = processor.change_data_types(df)
-        df = processor.NaNs(df)
-        df = processor.host_response_rate_to_probabilities(df)
+       # df = pd.read_csv(os.path.join(source+'/'+ df_name + '.csv'), index_col='listing_id')
+       # df = processor.change_data_types(df)
+       # df = processor.NaNs(df)
+       # df = processor.host_response_rate_to_probabilities(df)
         
 
 
         # Distances 
-        longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
-        longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
-        df = pd.concat([longlat['dist'], df], axis = 1)
-        df = df.drop(['latitude','longitude'], axis = 1)
+       # longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
+      #  longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
+       # df = pd.concat([longlat['dist'], df], axis = 1)
+      #  df = df.drop(['latitude','longitude'], axis = 1)
     
         # Images 
-        images = imageProcessor.getImages(os.path.join(source + '/' + df_name))
+        images = imageProcessor.getImages(os.path.join(source + '/' + df_name + '/*.png'))
         imgData  = [imageProcessor.imgDetails(image) for image in images]
         brightness = [imageProcessor.getBrightness(image) for image in images]
         colors_BGR = [imageProcessor.channelSplit(image) for image in images]
 
         ImageData = pd.DataFrame({'ImageData': imgData, 'Brightness': brightness, 'BGR': colors_BGR})
-        df = pd.concat([ImageData,df], axis =1)
-        df = df.drop(['picture_url'], axis = 1)
+        #df = pd.concat([ImageData,df], axis =1)
+        #df = df.drop(['picture_url'], axis = 1)
     
 
         # Membership
-        df = processor.membership(df)
-        df = df.drop(['host_since_year','host_since'], axis = 1)
+       # df = processor.membership(df)
+       #df = df.drop(['host_since_year','host_since'], axis = 1)
 
         
         # Text Data
         # Preprocess description 
         #Get Clean Data Description
-        df = textprocessor.description_length(df)
+       # df = textprocessor.description_length(df)
         # drop space and summary as they seem to be a mix of description
-        df = df.drop(['space', 'summary'], axis = 1)
+      #  df = df.drop(['space', 'summary'], axis = 1)
         
-        df.to_csv(os.path.join(target + '/'+ df_name + '.csv'))
+        ImageData.to_csv(os.path.join(target + '/ImageData_'+ df_name + '.csv'))
     
     return
 

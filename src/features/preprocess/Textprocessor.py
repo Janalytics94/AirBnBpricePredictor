@@ -3,6 +3,8 @@
 # NLP in general
 import spacy
 from collections import Counter
+from spacytextblob.spacytextblob import SpacyTextBlob
+
 # to handle different langauges in reviews
 from google_trans_new import google_translator
 # emojies
@@ -51,6 +53,19 @@ class TextProcessor():
         
         return text    
 
+    def process_amenities(self, df):
+
+        ''' process amenities in dataset'''
+        amenities = list(df.amenities)
+        amenities = " ".join(amenities)
+        amenities = amenities.replace('}', '')
+        amenities =amenities.replace('{', '')
+        amenities = amenities.replace('"', '')
+        set_amenities = [x.strip() for x in amenities.split(',')]
+        set_amenities = set(set_amenities)
+
+        return set_amenities
+
 
     def clean(self, text):
         ''' Removes \n and \r from data set turn everything to lower case'''
@@ -83,4 +98,27 @@ class TextProcessor():
         common_words = word_freq.most_common(5)
 
         return lemmas, common_words
+    
+    def get_sentiments(self,review):
+        ''' Sentimentsanalyse'''
+
+        nlp = spacy.load("en_core_web_sm")
+        nlp.add_pipe("spacytextblob")
+        #Stopwords
+        stpw = spacy.lang.en.stop_words.STOP_WORDS
+        doc = nlp(review)
+        tokens = [token for token in doc]
+        # remove stopwords
+        filtered = [token for token in tokens if not token.is_stop]
+        # remove puntuations
+        filtered = [token for token in filtered if not token.is_punct]
+        # remove white spaces 
+        filtered = [token for token in filtered if not token.is_space ]
+
+        assessments = doc._.assessments 
+        subjectivity = doc._.subjectivity
+        polarity = doc._.polarity 
+
+        return assessments, subjectivity, polarity
+
        
