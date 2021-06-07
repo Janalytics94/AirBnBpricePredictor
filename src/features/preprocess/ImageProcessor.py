@@ -8,11 +8,11 @@ class ImageProcessor():
     ''' Class contians method of feature extraction for the images. We want to load images and extract
     Red, Blues and Greens, as well as image data like size etc and brighness '''
     
-    def getImages(self,path):
+    def getImage(self,path):
         
         image = cv2.imread(path)
         
-        return images
+        return image
         
     def imgDetails(self,img):
         # accepts an image of format -> cv2.imread('image path')

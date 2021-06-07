@@ -11,7 +11,7 @@ from google_trans_new import google_translator
 import pickle
 import re
 
-class TextProcessor():
+class Textprocessor():
     ''' Class to initilaize text processing '''
 
     def get_data(self,df):

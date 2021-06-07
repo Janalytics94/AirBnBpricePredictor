@@ -1,3 +1,3 @@
 from .Processor import Processor
-from .Textprocessor import TextProcessor
+from .Textprocessor import Textprocessor
 from .ImageProcessor import ImageProcessor

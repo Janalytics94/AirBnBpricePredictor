@@ -12,10 +12,11 @@ from wand.image import Image
 
 def convert_images(source, df_name, target):
     image_processor = ImageProcessor()
-    source = 'data/images'
-    df_name = 'train'
-    with Image(filename=os.path.join(source + '/' + df_name + '/0A1XFOPGVL.png')) as img:
-        #with open(target, 'w') as output_stream:
+
+    all_images = os.listdir(os.path.join(source, df_name))
+    with open(target, 'w') as output_stream:
+        for image in all_images:
+            img = image_processor.getImage(os.path.join(source + '/' + df_name + image))
             imgData  = image_processor.imgDetails(img)
             brightness = image_processor.getBrightness(img)
             colors_BGR = image_processor.channelSplit(img)
