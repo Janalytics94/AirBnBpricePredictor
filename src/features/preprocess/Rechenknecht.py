@@ -47,15 +47,6 @@ def rechenknecht(source, target):
        # df = pd.concat([longlat['dist'], df], axis = 1)
       #  df = df.drop(['latitude','longitude'], axis = 1)
     
-        # Images 
-        images = imageProcessor.getImages(os.path.join(source + '/' + df_name + '/*.png'))
-        imgData  = [imageProcessor.imgDetails(image) for image in images]
-        brightness = [imageProcessor.getBrightness(image) for image in images]
-        colors_BGR = [imageProcessor.channelSplit(image) for image in images]
-
-        ImageData = pd.DataFrame({'ImageData': imgData, 'Brightness': brightness, 'BGR': colors_BGR})
-        #df = pd.concat([ImageData,df], axis =1)
-        #df = df.drop(['picture_url'], axis = 1)
     
 
         # Membership
