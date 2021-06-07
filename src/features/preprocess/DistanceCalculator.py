@@ -5,7 +5,7 @@ import geopy
 from geopy.distance import geodesic
 
 
-class Distance_Calculator:
+class DistanceCalculator:
     ''' class to calculate distance between airbnb of a chosen point in London
     df : dataframe of interest
     long_poi : takes the longitue of the point of interest
