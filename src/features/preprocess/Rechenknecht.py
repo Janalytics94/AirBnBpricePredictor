@@ -61,7 +61,6 @@ def rechenknecht(source, target):
         # drop space and summary as they seem to be a mix of description
       #  df = df.drop(['space', 'summary'], axis = 1)
         
-        ImageData.to_csv(os.path.join(target + '/ImageData_'+ df_name + '.csv'))
     
     return
 

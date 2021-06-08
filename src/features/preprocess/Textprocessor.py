@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+# URLS
+import requests
+from time import sleep
 # NLP in general
 import spacy
 from collections import Counter
@@ -10,6 +12,7 @@ from google_trans_new import google_translator
 # emojies
 import pickle
 import re
+
 
 class Textprocessor():
     ''' Class to initilaize text processing '''
@@ -39,6 +42,7 @@ class Textprocessor():
 
         translator = google_translator()
         trans_text = translator.translate(text)
+        
 
         return trans_text      
 
