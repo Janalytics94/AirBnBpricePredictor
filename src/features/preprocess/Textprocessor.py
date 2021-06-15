@@ -57,18 +57,111 @@ class Textprocessor():
         
         return text    
 
-    def process_amenities(self, df):
+    def clean_amenities(self, df):
 
-        ''' process amenities in dataset'''
-        amenities = list(df.amenities)
-        amenities = " ".join(amenities)
-        amenities = amenities.replace('}', '')
-        amenities =amenities.replace('{', '')
-        amenities = amenities.replace('"', '')
-        set_amenities = [x.strip() for x in amenities.split(',')]
-        set_amenities = set(set_amenities)
+        # remove missiing values
+        df.loc[df.amenities == '{}', 'amenities'] = ""
+        df['amenities'] = df['amenities'].map(lambda amns: "|".join([amn.replace('{', '').replace('}', '').replace('"', '') for amn in amns.split(",")]))
+        amenities = np.unique(np.concatenate(df['amenities'].map(lambda amns: amns.split("|")).values))
+        amenities_matrix = np.array([df['amenities'].map(lambda amns: amn in amns).values for amn in amenities])
+        amenities_df = pd.DataFrame(data=amenities_matrix.T, columns=amenities)
+        # drop unnecessary columns
+        amenities_df = amenities_df.drop(columns=['', 'translation missing: en.hosting_amenity_49', 'translation missing: en.hosting_amenity_50' ])
 
-        return set_amenities
+        # Recoding the original amneities 
+        amenitie_dict = {
+            # Acessible Room
+            'Flat path to guest entrance': 'Acessible Room',
+            'Accessible-height bed': 'Acessible Room',
+            'Accessible-height toilet': 'Acessible Room',
+            'Bathtub with bath chair': 'Accessible Room',
+            'Fixed grab bars for shower': 'Accessible Room', 
+            'Fixed grab bars for toilet': 'Accessible Room',
+            'Handheld shower head': 'Accessible Room',
+            'Wheelchair accessible' : 'Accessible Room',
+            'Wide clearance to shower': 'Accessible Room', 
+            'Wide doorway to guest bathroom': 'Accessible Room',
+            'Wide entrance': 'Accessible Room',
+            'Wide entrance for guests': 'Accessible Room', 
+            'Wide entryway': 'Accessible Room',
+            'Wide hallways': 'Accessible Room',
+            'Ground floor access': 'Accessible Room',
+            'Disabled parking spot': 'Acessible Room',
+            'Shower chair': 'Accessible Room',
+
+            # Pet Friendly
+            'Cat(s)': 'Pet Friendly',
+            'Pets allowed': 'Pet Friendly',
+            'Pets live on this property': 'Pet Friendly',
+            'Dog(s)': 'Pet Friendly',
+            'Other pet(s)': 'Pet Friendly',
+
+            # Security
+            'Doorman': 'Security',
+            'Keypad': 'Security',
+            'Smart lock': 'Security',
+            'Buzzer/wireless intercom': 'Security',
+            'Well-lit path to entrance': 'Security',
+            'Safety card': 'Security',
+
+            # Family Friendly
+            'Children’s dinnerware': 'Family Friendly',
+            'Children’s books and toys': 'Family Friendly',
+            'Babysitter recommendations': 'Family Friendly',
+            'Baby bath': 'Family Friendly',
+            'Baby monitor': 'Family Friendly',
+            'Changing table': 'Family Friendly',
+            'Crib': 'Family Friendly',
+            'Family/kid friendly': 'Family Friendly',
+            'Fireplace guards': 'Family Friendly',
+            'Stair gates': 'Family Friendly',
+            'Window guards': 'Family Friendly',
+            'High chair': 'Family Friendly',
+            'Pack ’n Play/travel crib': 'Family Friendly',
+
+            # Essentials
+            'Bath towel': 'Essentials',
+            'Hair dryer': 'Essentials',
+            'Body soap': 'Essentials',
+            'Shampoo': 'Essentials',
+            'Bed linens': 'Essentials',
+            'Toilet paper': 'Essentials',
+            'Bathroom essentials': 'Essentials',
+
+            # Hot Water
+            'Hot water': 'Hot Water', 
+            'Hot water kettle': 'Hot Water',
+
+            # WIFI
+            'Pocket wifi': 'WIFI',
+            'Internet': 'WIFI',
+
+
+
+            # 24-Hour-Check-In 
+            'Self check-in': '24-Hour-Check-In ',
+
+            # Privacy
+
+
+            # Climate Control
+            'Ceiling fan': 'Air Conditioning',
+            'Air conditioning': 'Air Conditioning',
+            'Air purifier': 'Air Conditioning',
+            'Central air conditioning': 'Air Conditioning',
+
+            # Cooking Essentials
+
+
+            # Heating
+
+            'Heated floors': 'Heating',
+            'Heated towel rack': 'Heating'
+
+        }
+
+
+        return amenities_df
 
 
     def clean(self, text):
@@ -81,7 +174,13 @@ class Textprocessor():
         text = text.strip('}')
         text = text.lower()
 
-        return text     
+        return text   
+
+    def remove_URL(self, text):
+        text = re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
+
+        return text
+
 
     def process(self, text):
         ''' Basic NLP on text data (remove stopwords, lemmatizations, tokens) might need some additional work'''

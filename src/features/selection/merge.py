@@ -23,10 +23,7 @@ def merge(source, target):
         brightness_values = [image_data[index]['Brightness'] for index in range(len(image_data))]
         blues = [image_data[index]['BGR'][0] for index in range(len(image_data))]
         greens = [image_data[index]['BGR'][1] for index in range(len(image_data))]
-        reds = [image_data[index]['BGR'][2] for index in range(len(image_data))]
-
-    
-         
+        reds = [image_data[index]['BGR'][2] for index in range(len(image_data))] 
 
         a = {'listing_id': listing_ids, 'Brightness': brightness_values, 'Blue_Values': blues, 'Green_Values': greens, 'Red_Values': reds}
         images = pd.DataFrame.from_dict(a, orient='index')
@@ -34,7 +31,7 @@ def merge(source, target):
         images = images.set_index('listing_id')
         images = images.astype('float32')
 
-        merged_df = df.merge(images, on='listing_id')
+        merged_df = df.merge(images, on='listing_id', how='left').fillna(0)
         numerics = merged_df.select_dtypes(['float64', 'int64']).columns
         merged_df[numerics] = merged_df[numerics].astype('float32')
         merged_df.to_csv(os.path.join(target + '/' + df_name + '/' + df_name + '.csv'))
