@@ -29,11 +29,9 @@
   -- Yelp data was useful or not , outlook price dropping Time Series Analysis 
 
 # TO DO
-# Image Processing 
 # Text Processing 
 # yelp data 
-# merge data 
-# guck dir jedes feature genau an
+# guck dir jedes feature genau an 
 # wähle relevante features aus 
 # notebook aufräumen
 # References
