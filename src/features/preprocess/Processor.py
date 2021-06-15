@@ -46,6 +46,170 @@ class Processor():
         df[floats] = df[floats].astype('float32')
 
         return df
+    
+    #TODO: Funktion überarbeiten
+    def outlier_trunctuation(self, df, column, factor):
+        
+        if column == 'comments' or column == 'description':
+            df['text_length'] = df[column].apply(lambda x: len(x))
+
+        IQR = df[column].quantile(0.75) - df[column].quantile(0.25) 
+        # factor = 1.5
+        upper = df[column].quantile(0.75) + factor*IQR
+        lower = df[column].quantile(0.25) - factor*IQR
+        df_new = df.copy()
+        df_new[df[column] < lower] = lower
+        df_new[df[column] > upper] = upper
+            
+        return df_new, IQR
+    
+    def price_log_transformation(self, price):
+
+        log_price = np.log(price)
+
+        return log_price
+
+    def clean_amenities(self, df):
+
+        # remove missiing values
+        df.loc[df.amenities == '{}', 'amenities'] = ""
+        df['amenities'] = df['amenities'].map(lambda amns: "|".join([amn.replace('{', '').replace('}', '').replace('"', '') for amn in amns.split(",")]))
+        amenities = np.unique(np.concatenate(df['amenities'].map(lambda amns: amns.split("|")).values))
+        amenities_matrix = np.array([df['amenities'].map(lambda amns: amn in amns).values for amn in amenities])
+        amenities_df = pd.DataFrame(data=amenities_matrix.T, columns=amenities)
+        # drop unnecessary columns
+        amenities_df = amenities_df.drop(columns=['', 'translation missing: en.hosting_amenity_49', 'translation missing: en.hosting_amenity_50' ])
+
+        # Recoding the original amneities 
+        amenitie_dict = {
+            # Acessible Room
+            'Flat path to guest entrance': 'Acessible Room',
+            'Accessible-height bed': 'Acessible Room',
+            'Accessible-height toilet': 'Acessible Room',
+            'Bathtub with bath chair': 'Accessible Room',
+            'Fixed grab bars for shower': 'Accessible Room', 
+            'Fixed grab bars for toilet': 'Accessible Room',
+            'Handheld shower head': 'Accessible Room',
+            'Wheelchair accessible' : 'Accessible Room',
+            'Wide clearance to shower': 'Accessible Room', 
+            'Wide doorway to guest bathroom': 'Accessible Room',
+            'Wide entrance': 'Accessible Room',
+            'Wide entrance for guests': 'Accessible Room', 
+            'Wide entryway': 'Accessible Room',
+            'Wide hallways': 'Accessible Room',
+            'Ground floor access': 'Accessible Room',
+            'Disabled parking spot': 'Acessible Room',
+            'Shower chair': 'Accessible Room',
+
+            # Pet Friendly
+            'Cat(s)': 'Pet Friendly',
+            'Pets allowed': 'Pet Friendly',
+            'Pets live on this property': 'Pet Friendly',
+            'Dog(s)': 'Pet Friendly',
+            'Other pet(s)': 'Pet Friendly',
+
+            # Security
+            'Doorman': 'Security',
+            'Keypad': 'Security',
+            'Smart lock': 'Security',
+            'Buzzer/wireless intercom': 'Security',
+            'Well-lit path to entrance': 'Security',
+            'Safety card': 'Security'
+
+            # Family Friendly
+            'Children’s dinnerware': 'Family Friendly',
+            'Children’s books and toys': 'Family Friendly',
+            'Babysitter recommendations': 'Family Friendly',
+            'Baby bath': 'Family Friendly',
+            'Baby monitor': 'Family Friendly',
+            'Changing table': 'Family Friendly',
+            'Crib': 'Family Friendly',
+            'Family/kid friendly': 'Family Friendly',
+            'Fireplace guards': 'Family Friendly',
+            'Stair gates': 'Family Friendly',
+            'Window guards': 'Family Friendly',
+            'High chair': 'Family Friendly',
+            'Pack ’n Play/travel crib': 'Family Friendly',
+
+            # Essentials
+            'Bath towel': 'Essentials',
+            'Hair dryer': 'Essentials',
+            'Body soap': 'Essentials',
+            'Shampoo': 'Essentials',
+            'Bed linens': 'Essentials',
+            'Toilet paper': 'Essentials',
+            'Bathroom essentials': 'Essentials',
+
+            # Hot Water
+            'Hot water': 'Hot Water', 
+            'Hot water kettle': 'Hot Water',
+
+            # WIFI
+            'Pocket wifi': 'WIFI',
+            'Internet': 'WIFI',
+
+
+
+            # 24-Hour-Check-In 
+            'Self check-in': '24-Hour-Check-In ',
+
+
+
+
+            # Privacy
+
+
+            # Climate Control
+            'Ceiling fan': 'Air Conditioning',
+            'Air conditioning': 'Air Conditioning',
+            'Air purifier': 'Air Conditioning',
+            'Central air conditioning': 'Air Conditioning',
+
+
+
+
+            # Cooking Essentials
+
+
+            # Heating
+
+            'Heated floors': 'Heating',
+            'Heated towel rack': 'Heating'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+        }
+
+
+        return amenities_df
+
+
 
     def split_df(self,df):
         ''' splits df into supgroups to make the analysis a little easier.
@@ -165,7 +329,8 @@ class Processor():
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month'#'longitude', 'latitude'
+                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist'
+                #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
         else:
@@ -173,7 +338,7 @@ class Processor():
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost',
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month'
+                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]
@@ -224,7 +389,7 @@ class Processor():
 
         return feature_layer
 
-    def create_train_validation_frames(self,train,target, test):
+    def create_train_validation_frames(self, train, target, test):
         ''' 
         Create train and validation set to evaluate model performance of 
         our neural network 

@@ -16,12 +16,12 @@ from clize import run
 def convert_reviews(source, target):
     
     text_processor = Textprocessor()
-    
+   
     with open(source, newline='') as csvfile:
         with open(target, 'w') as out_file:
             data =csv.DictReader(csvfile)
             lines = list(data) # adapt it to 0 so it will run through 
-            for i in range(36023, len(lines)):
+            for i in range(128889, len(lines)):
                 row = lines[i]
             #for row in data:
                 id_ = row['listing_id']
