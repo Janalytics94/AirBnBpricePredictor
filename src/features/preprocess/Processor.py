@@ -8,6 +8,7 @@ import tensorflow as tf
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.impute import KNNImputer
 
 class Processor():
     ''' Methods to clean and develop numeric and categorical features in dataframe'''
@@ -50,9 +51,6 @@ class Processor():
     #TODO: Funktion überarbeiten
     def outlier_trunctuation(self, df, column, factor):
         
-        if column == 'comments' or column == 'description':
-            df['text_length'] = df[column].apply(lambda x: len(x))
-
         IQR = df[column].quantile(0.75) - df[column].quantile(0.25) 
         # factor = 1.5
         upper = df[column].quantile(0.75) + factor*IQR
@@ -169,6 +167,14 @@ class Processor():
         df['zipcode'] = df.replace(dict_)
 
         return df
+    
+    def impute_review_scores(self,df):
+        '''
+        K Nearest Neigbhour for the review scores regarding cleanliness etc.
+        '''
+        imputer = KNNImputer()
+
+        return 
 
     def drop_features(self, df):
         '''
@@ -177,8 +183,6 @@ class Processor():
         df = df.drop(['neighbourhood', 'picture_url', 'summary', 'space'], axis=1)
 
         return df
-
-
         
     def get_relevant_features(self, df):
         cols = df.columns.values.tolist()
@@ -187,7 +191,7 @@ class Processor():
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist'
+                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist', 'description_length'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
@@ -196,7 +200,7 @@ class Processor():
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost',
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist'
+                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist', 'description_length'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]

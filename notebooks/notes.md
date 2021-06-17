@@ -62,6 +62,7 @@ summary -> len(zeichenkette), je detailierter die Beschreibung, höherer Preis e
 
 # Reviews
 Sentiments analyse but how to handle the different languages?
+auf 5 stars, emojis and puctuation wie ! eingehen
 
 https://towardsdatascience.com/ai-and-real-state-renting-in-amsterdam-part-1-5fce18238dbc
 papers im ornder uni/AirbnbPrediction

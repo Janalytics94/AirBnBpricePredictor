@@ -6,6 +6,7 @@ import pandas as pd
 import sys
 sys.path.append('.')
 
+import src.features.preprocess.Textprocessor as Textprocessor
 import src.features.preprocess.Processor as Processor
 import src.features.preprocess.DistanceCalculator as DistanceCalculator
 
@@ -23,7 +24,7 @@ def rechenknecht(source, target):
     # Initialize all important classes
     processor = Processor()
     distanceCalculator = DistanceCalculator()
-   
+    
     for df_name in df_names:
         # Use processing types for standard preprocessing
         df = pd.read_csv(os.path.join(source+'/'+ df_name + '.csv'), index_col='listing_id')
@@ -32,12 +33,13 @@ def rechenknecht(source, target):
         df = processor.membership(df)
         df = processor.host_response_rate_to_probabilities(df)
         df = processor.effect_coding_host_response_time(df)
+       
 
         # Distances 
         longlat = distanceCalculator.zip_objects(df,lat_poi=51.510067,long_poi=-0.133869)
         longlat['dist'] = [distanceCalculator.get_distance(**longlat[['originCoordinates','poiCoordinates']].iloc[i].to_dict()) for i in range(longlat.shape[0])]
         df = pd.concat([longlat['dist'], df], axis = 1)
-        #df = df.drop(['latitude','longitude'], axis = 1)
+        df = df.drop(['latitude','longitude'], axis = 1)
         df = processor.drop_features(df)
         df = processor.get_relevant_features(df)
         df = processor.hot_encode(df)

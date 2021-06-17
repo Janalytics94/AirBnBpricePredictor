@@ -17,25 +17,23 @@ import re
 class Textprocessor():
     ''' Class to initilaize text processing '''
 
-    def get_data(self,df):
+    def get_data(self,df, column):
         '''remove missing values / nan in texts'''
+        if column == 'description':
+            clean = df[pd.isna(df.column)==False]
+            #text = clean.description.values.tolist()
+        if column == 'comments':
+            clean = df[pd.isna(df.column)==False]
+           #text = clean.comment.values.tolist()
 
-        columns = df.columns.tolist()
-        if 'description ' in columns:
-            clean = df[pd.isna(train.description)==False]
-            text = clean.description.values.tolist()
-        if 'comment' in columns:
-            clean = df[pd.isna(reviews.comment)==False]
-            text = clean.comment.values.tolist()
+        return clean
 
-        return text
-
-    def description_length(self, df):
+    def description_length(self, text):
         ''' Calculates Description Length of each Airbnb'''
 
-        df['description_length'] = df.description.apply(lambda x: len(x))
+        length =  len(text)
 
-        return df
+        return length
 
     def translate(self, text):
         ''' Translates reviews in different languages to english'''
@@ -165,13 +163,23 @@ class Textprocessor():
 
 
     def clean(self, text):
-        ''' Removes \n and \r from data set turn everything to lower case'''
+        ''' 
+        Removes unnessary stuff from text like numbers, punctuation, etc. from data set turn everything to lower case
+        '''
 
         text = text.replace("\r","")
         text = text.replace("\n","")
         text = text.replace("\\","")
+        text = text.replace("/", "")
+        text = text.replace("/", "")
+        text = re.sub('[?@#$\&+!*"-]', '', text)
+        text = re.sub(r'[0-9]', '', text)
+        text = re.sub('\s+',' ', text)
+        text = text.strip('/')
         text = text.strip('{')
         text = text.strip('}')
+        text = text.strip('(')
+        text = text.strip(')')
         text = text.lower()
 
         return text   
