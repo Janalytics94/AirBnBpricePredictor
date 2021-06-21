@@ -3,6 +3,8 @@
 import os 
 import pandas as pd 
 import json
+import re
+import glob
 
 from clize import run 
 
@@ -17,8 +19,8 @@ def merge(source, target):
     for df_name in df_names:
 
         df = pd.read_csv(os.path.join(source + '/' + df_name + '/'+ df_name + '.csv'), index_col='listing_id')
-        input_file = open(os.path.join(source + '/'+ df_name + '/' + 'img_' + df_name + '.jsonl'))
-        image_data = [json.loads(input_line) for input_line in input_file]
+        input_images = open(os.path.join(source + '/'+ df_name + '/' + 'img_' + df_name + '.jsonl'))
+        image_data = [json.loads(input_line) for input_line in input_images]
         listing_ids = [image_data[index]['listing_id'] for index in range(len(image_data))]
         brightness_values = [image_data[index]['Brightness'] for index in range(len(image_data))]
         blues = [image_data[index]['BGR'][0] for index in range(len(image_data))]
@@ -35,6 +37,9 @@ def merge(source, target):
         numerics = merged_df.select_dtypes(['float64', 'int64']).columns
         merged_df[numerics] = merged_df[numerics].astype('float32')
         merged_df.to_csv(os.path.join(target + '/' + df_name + '/' + df_name + '.csv'))
+    
+    return
 
 if __name__=='__main__':
     run(merge)
+
