@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # URLS
+import pandas as pd
 import requests
+import numpy as np
 from time import sleep
+
 # NLP in general
 import spacy
 from collections import Counter
@@ -84,7 +87,7 @@ class Textprocessor():
             'Wide entryway': 'Accessible Room',
             'Wide hallways': 'Accessible Room',
             'Ground floor access': 'Accessible Room',
-            'Disabled parking spot': 'Acessible Room',
+            'Disabled parking spot': 'Accessible Room',
             'Shower chair': 'Accessible Room',
 
             # Pet Friendly
@@ -126,6 +129,13 @@ class Textprocessor():
             'Toilet paper': 'Essentials',
             'Bathroom essentials': 'Essentials',
 
+            # Comfortable Sleep
+            'Extra pillows and blankets' : 'Comfortable Sleep',
+            'Firm matress' : 'Comfortable Sleep',
+            'Firm mattress' : 'Comfortable Sleep',
+            'Room-darkening shades' : 'Comfortable Sleep',
+           
+
             # Hot Water
             'Hot water': 'Hot Water', 
             'Hot water kettle': 'Hot Water',
@@ -134,12 +144,21 @@ class Textprocessor():
             'Pocket wifi': 'WIFI',
             'Internet': 'WIFI',
 
-
-
             # 24-Hour-Check-In 
             'Self check-in': '24-Hour-Check-In ',
+            '24-hour check-in': '24-hour check-in',
+            'Luggage dropoff allowed': '24-hour check-in',
+
+            # Parking paid or free
+            'Free parking on premises' : 'Free parking',
+            'Free parking on street' : 'Free parking',
+            'Paid parking off premises' : 'Paid parking',
 
             # Privacy
+            'Private bathroom' : 'Privacy', 
+            'Private entrance' : 'Privacy',
+            'Private living room' : 'Privacy',
+            'Lock on bedroom door' : 'Privacy',
 
 
             # Climate Control
@@ -149,14 +168,43 @@ class Textprocessor():
             'Central air conditioning': 'Air Conditioning',
 
             # Cooking Essentials
+            'Cooking basics' : 'Cooking Allowed', 
+            'Dishes and silverware' : 'Cooking Allowed', 
+            'Dishwasher' : 'Cooking Allowed',
+            'Microwave' : 'Cooking Allowed', 
+            'Oven' : 'Cooking Allowed',
+            'BBQ grill' : 'Cooking Allowed',
+            'Stove' : 'Cooking Allowed', 
+            'Kitchen' : 'Cooking Allowed',
+            
+            #'Refrigerator', 
+            #'Coffee maker', 
+
+                
+            # TV
+            'Cable TV' : 'TV', 
+   
 
 
             # Heating
 
             'Heated floors': 'Heating',
-            'Heated towel rack': 'Heating'
+            'Heated towel rack': 'Heating',
+
+            # Elevator,
+            'Elevator in building' : 'Elevator', 
+            
+            # Near Water
+            'Lake access' : 'Near Water',
+            'Beachfront': 'Near Water',
+            'Beach essentials': 'Near Water',
+            'Waterfront': 'Near Water'
+
+            # Luxury
+
 
         }
+        amenities_df = amenities_df.rename(columns=amenitie_dict)
 
 
         return amenities_df

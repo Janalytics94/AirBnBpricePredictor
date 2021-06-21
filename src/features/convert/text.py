@@ -24,7 +24,7 @@ def process_reviews(source,target):
         with open(target, 'w') as out_file:
             data =csv.DictReader(csvfile)
             lines = list(data) # adapt it to 0 so it will run through 
-            for i in range(209127, len(lines)):
+            for i in range(222017, len(lines)):
                 row = lines[i]
             #for row in data:
                 id_ = row['listing_id']
@@ -43,7 +43,7 @@ def process_reviews(source,target):
                         try:
                         # translate 
                             text = text_processor.translate(text)
-                        except requests.exceptions.ConnectionError as e:
+                        except (requests.exceptions.ConnectionError, google_trans_new.google_trans_new.google_new_transError) as e:
                             print('Too Many Requests, let me sleep for 10 seconds...')
                             sleep(10)
                             continue
