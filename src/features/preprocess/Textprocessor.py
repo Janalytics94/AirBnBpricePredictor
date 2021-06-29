@@ -161,6 +161,13 @@ class Textprocessor():
             'Day bed':  'Comfortable Sleep',
            
 
+            # Comfortable Sleep
+            'Extra pillows and blankets' : 'Comfortable Sleep',
+            'Firm matress' : 'Comfortable Sleep',
+            'Firm mattress' : 'Comfortable Sleep',
+            'Room-darkening shades' : 'Comfortable Sleep',
+           
+
             # Hot Water
             'Hot water': 'Hot Water', 
             'Hot water kettle': 'Hot Water',
@@ -183,7 +190,6 @@ class Textprocessor():
             'Free parking on premises' : 'Free parking',
             'Free parking on street' : 'Free parking',
             'Paid parking off premises' : 'Paid parking',
-            'Free street parking': 'Free parking',
 
             # Privacy
             'Private bathroom' : 'Privacy', 
