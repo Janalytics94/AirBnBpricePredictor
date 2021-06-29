@@ -172,9 +172,12 @@ class Processor():
         '''
         K Nearest Neigbhour for the review scores regarding cleanliness etc.
         '''
-        imputer = KNNImputer()
+        imputer = KNNImputer(n_neighbors=5)
+        scores_df = df[['review_scores_rating', 'review_scores_accuracy', 'review_scores_cleanliness', 'review_scores_checkin', 'review_scores_communication', 'review_scores_location', 'review_scores_value']]
+        scores_df = pd.DataFrame(imputer.fit_transform(scores_df),columns = scores_df.columns, index=df.index)
+        df = df.merge(scores_df, on='listing_id')
 
-        return 
+        return df
 
     def drop_features(self, df):
         '''
@@ -191,7 +194,10 @@ class Processor():
                 'price','accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist', 'description_length'
+                'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist', 'description_length',
+                'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
+                'review_scores_communication_y','review_scores_location_y','review_scores_value_y' 
+
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
@@ -200,7 +206,9 @@ class Processor():
                 'accommodates', 'bathrooms', 'bedrooms','beds','guests_included',
                 'host_identity_verified','host_has_profile_pic','host_is_superhost',
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
-                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist', 'description_length'
+                'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist', 'description_length',
+                'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
+                'review_scores_communication_y','review_scores_location_y','review_scores_value_y'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]

@@ -23,7 +23,9 @@ def rechenknecht(source, target):
     df_names = ['train', 'test']
     # Initialize all important classes
     processor = Processor()
+    textprocessor = Textprocessor()
     distanceCalculator = DistanceCalculator()
+    
     
     for df_name in df_names:
         # Use processing types for standard preprocessing
@@ -33,6 +35,8 @@ def rechenknecht(source, target):
         df = processor.membership(df)
         df = processor.host_response_rate_to_probabilities(df)
         df = processor.effect_coding_host_response_time(df)
+        df = textprocessor.description_length(df)
+        df = processor.impute_review_scores(df)
        
 
         # Distances 
