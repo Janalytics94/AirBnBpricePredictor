@@ -19,7 +19,7 @@ src/features/preprocess/__pycache__/
 .keras
 src/features/convert/__pycache__/
 src/features/__pycache__/__init__.cpython-39.pyc
-predictions/
+/predictions/
 predictions/sample_submission_nn.csv
 predictions/sample_submission_xgb.csv
 predictions/sample_submission.csv
