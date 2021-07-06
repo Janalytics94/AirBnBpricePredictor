@@ -46,6 +46,7 @@ def rechenknecht(source, target):
         df = df.drop(['latitude','longitude'], axis = 1)
         df = processor.drop_features(df)
         df = processor.get_relevant_features(df)
+        df = processor.clean_cancellation_policy(df)
         df = processor.hot_encode(df)
         
     

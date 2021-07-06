@@ -15,9 +15,9 @@ def merge(source, target):
 
     #source = '/root/data/interim'
     #target = '/root/data/canonical'
-    df_names = ['train', 'test']
+    df_names = ['train', 'test', 'reviews']
     for df_name in df_names:
-
+        
         df = pd.read_csv(os.path.join(source + '/' + df_name + '/'+ df_name + '.csv'), index_col='listing_id')
         input_images = open(os.path.join(source + '/'+ df_name + '/' + 'img_' + df_name + '.jsonl'))
         image_data = [json.loads(input_line) for input_line in input_images]

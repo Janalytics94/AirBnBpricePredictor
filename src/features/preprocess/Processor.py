@@ -196,7 +196,7 @@ class Processor():
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
                 'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist', 'description_length',
                 'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
-                'review_scores_communication_y','review_scores_location_y','review_scores_value_y' 
+                'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy'
 
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
@@ -208,10 +208,25 @@ class Processor():
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
                 'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist', 'description_length',
                 'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
-                'review_scores_communication_y','review_scores_location_y','review_scores_value_y'
+                'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]
+        return df
+    
+    def clean_cancellation_policy(self,df):
+        '''
+        Group some of the canellation policies together
+        '''
+        values = {
+            'luxury_moderate':'moderate',
+            'luxury_super_strict_95':'strict',
+            'strict_14_with_grace_period':'strict', 
+            'super_strict_30':'strict',
+            'super_strict_60' : 'strict'
+            }
+        df['cancellation_policy'].replace(values, inplace=True)
+
         return df
     
     def hot_encode(self,df):
@@ -220,14 +235,14 @@ class Processor():
             * room_type
             * property_type
         '''
-        dummies = pd.get_dummies(df[['bed_type', 'room_type']]) #'property_type'
-        df = df.drop(['bed_type', 'room_type'], axis=1) #'property_type'
+        dummies = pd.get_dummies(df[['bed_type', 'room_type', 'cancellation_policy']]) #'property_type'
+        df = df.drop(['bed_type', 'room_type', 'cancellation_policy'], axis=1) #'property_type'
 
         X = pd.concat([dummies, df], axis=1)  
 
         return X  
     
-    def feature_cross(self, df):
+    def feature_cross(self, df): # sadly did not work 
         ''' Prepare Data for Feature Cross,
         using 100x100 grid
         '''
