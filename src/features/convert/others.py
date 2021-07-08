@@ -4,13 +4,14 @@ import json
 import os 
 import pandas as pd 
 import sys
+import numpy as np
 sys.path.append('.')
 
 import src.features.preprocess.Textprocessor as Textprocessor
 import src.features.preprocess.Processor as Processor
 import src.features.preprocess.DistanceCalculator as DistanceCalculator
 
-
+from sklearn.cluster import KMeans
 from clize import run
 
 
@@ -30,13 +31,23 @@ def rechenknecht(source, target):
     for df_name in df_names:
         # Use processing types for standard preprocessing
         df = pd.read_csv(os.path.join(source+'/'+ df_name + '.csv'), index_col='listing_id')
+        columns = df.columns.tolist()
         df = processor.change_data_types(df)
         df = processor.NaNs(df)
         df = processor.membership(df)
         df = processor.host_response_rate_to_probabilities(df)
         df = processor.effect_coding_host_response_time(df)
-        df = textprocessor.description_length(df)
+        df = textprocessor.text_length(df)
         df = processor.impute_review_scores(df)
+        if 'price' in columns:
+            df['log_price'] = df.price.apply(lambda x: processor.price_log_transformation(x))
+            price = np.array(df.price)
+            price = price.reshape(-1,1)
+            kmeans = KMeans(n_clusters=3).fit(price.reshape(-1,1))
+            price_labels = kmeans.predict(price.reshape(-1,1))
+            centers = kmeans.cluster_centers_
+            df['price_cluster'] = price_labels
+        
        
 
         # Distances 
@@ -48,6 +59,7 @@ def rechenknecht(source, target):
         df = processor.get_relevant_features(df)
         df = processor.clean_cancellation_policy(df)
         df = processor.hot_encode(df)
+        
         
     
         df.to_csv(os.path.join(target + '/' + df_name + '/' + df_name + '.csv'))

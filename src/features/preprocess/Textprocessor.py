@@ -31,12 +31,26 @@ class Textprocessor():
 
         return clean
 
-    def description_length(self, df):
-        ''' Calculates Description Length of each Airbnb'''
+    def text_length(self, df):
+        ''' Calculates Description Length, House_rule Length and Transit Length of each Airbnb & drops those who only have '''
 
         df['description_length'] = df.description.apply(lambda x: len(x))
+        df['transit_length'] = df.transit.apply(lambda x: len(x))
+        df['house_rules_length'] = df.house_rules.apply(lambda x: len(x))
+        df['neighborhood_length'] = df.neighborhood_overview.apply(lambda x: len(x))
 
         return df
+    
+    def outlier_trunctuation(self, df, factor):
+        
+        IQR = df[column].quantile(0.75) - df[column].quantile(0.25) 
+        # factor = 1.5
+        upper = df[column].quantile(0.75) + factor*IQR
+        lower = df[column].quantile(0.25) - factor*IQR
+        df_new = df.copy()
+        df_new = df_new.loc[(df.all_text_length < lower) | (df.all_text_length > upper)]
+            
+        return df_new, IQR
 
     def translate(self, text):
         ''' Translates reviews in different languages to english'''
@@ -349,6 +363,7 @@ class Textprocessor():
         text = text.replace("/", "")
         text = text.replace("/", "")
         text = re.sub('[?@#$\&+!*"-]', '', text)
+        text = re.sub('£', '', text)
         text = re.sub(r'[0-9]', '', text)
         text = re.sub('\s+',' ', text)
         text = text.strip('/')
@@ -407,5 +422,18 @@ class Textprocessor():
         polarity = doc._.polarity 
 
         return assessments, subjectivity, polarity
+    
+    def aggregare_review_data(self,df):
+        ''' 
+        aggregates the features gathered from reveiw_data
+        '''
+        df['mean_polarity'] = df.groupby(df.index)['polarity'].mean()
+        df['review_count'] = df.groupby(df.index)['review_id'].count()
+
+       # fill up missing values 
+        df = df.fillna(0)
+
+        return df
+        
 
        

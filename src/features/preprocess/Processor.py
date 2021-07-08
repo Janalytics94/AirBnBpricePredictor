@@ -48,19 +48,6 @@ class Processor():
 
         return df
     
-    #TODO: Funktion überarbeiten
-    def outlier_trunctuation(self, df, column, factor):
-        
-        IQR = df[column].quantile(0.75) - df[column].quantile(0.25) 
-        # factor = 1.5
-        upper = df[column].quantile(0.75) + factor*IQR
-        lower = df[column].quantile(0.25) - factor*IQR
-        df_new = df.copy()
-        df_new[df[column] < lower] = lower
-        df_new[df[column] > upper] = upper
-            
-        return df_new, IQR
-    
     def price_log_transformation(self, price):
 
         log_price = np.log(price)
@@ -195,9 +182,10 @@ class Processor():
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
                 'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist', 'description_length',
+                'house_rules_length','transit_length',
                 'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
-                'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy'
-
+                'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy',
+                'price_cluster', 'log_price'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
@@ -208,7 +196,8 @@ class Processor():
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
                 'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist', 'description_length',
                 'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
-                'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy'
+                'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy',
+                'house_rules_length','transit_length'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]
@@ -225,7 +214,7 @@ class Processor():
             'super_strict_30':'strict',
             'super_strict_60' : 'strict'
             }
-        df['cancellation_policy'].replace(values, inplace=True)
+        df['cancellation_policy'] = df['cancellation_policy'].replace(values)
 
         return df
     
@@ -293,6 +282,9 @@ class Processor():
         #y_validate = np.asarray(y_validate).astype(np.float32)
         
         return train, validate, y_train, y_validate
+    
+
+  
 
 
     

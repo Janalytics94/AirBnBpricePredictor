@@ -15,7 +15,7 @@ def merge(source, target):
 
     #source = '/root/data/interim'
     #target = '/root/data/canonical'
-    df_names = ['train', 'test', 'reviews']
+    df_names = ['train', 'test']
     for df_name in df_names:
         
         df = pd.read_csv(os.path.join(source + '/' + df_name + '/'+ df_name + '.csv'), index_col='listing_id')
