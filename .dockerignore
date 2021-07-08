@@ -1,7 +1,5 @@
-# Data 
-data/
-############
-.cache/
+data/images
+cache/
 .ssh/
 .vscode/
 .vscode-server/
@@ -23,4 +21,3 @@ src/features/__pycache__/__init__.cpython-39.pyc
 predictions/sample_submission_nn.csv
 predictions/sample_submission_xgb.csv
 predictions/sample_submission.csv
-notebooks/.ipynb_checkpoints/
