@@ -423,7 +423,7 @@ class Textprocessor():
 
         return assessments, subjectivity, polarity
     
-    def aggregare_review_data(self,df):
+    def aggregate_review_data(self,df):
         ''' 
         aggregates the features gathered from reveiw_data
         '''

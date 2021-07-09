@@ -15,8 +15,8 @@ def reviews(source, target):
     it with the different dataframes (other features like images and dfs) 
     '''
     
-    source = '/root/data/interim/reviews/jsonl/'
-    target  = '/root/data/interim/reviews/csv'
+    #source = '/root/data/interim/reviews/jsonl/'
+    #target  = '/root/data/interim/reviews/csv'
     review = [review for review in glob.glob(os.path.join(source, "*.jsonl"))]
     review_data = []
     for review in review:
