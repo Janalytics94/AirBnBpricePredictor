@@ -74,6 +74,8 @@ def process_other_text_features(source, target):
                     except langdetect.lang_detect_exception.LangDetectException:
                         print('No features in text...')
                         continue
+                    except json.JSONDecodeError:
+                        pass
                     
                     # clean
                     name = text_processor.clean(name)
