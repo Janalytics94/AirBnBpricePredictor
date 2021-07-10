@@ -159,7 +159,7 @@ class Processor():
         '''
         K Nearest Neigbhour for the review scores regarding cleanliness etc.
         '''
-        imputer = KNNImputer(n_neighbors=5)
+        imputer = KNNImputer(n_neighbors=3)
         scores_df = df[['review_scores_rating', 'review_scores_accuracy', 'review_scores_cleanliness', 'review_scores_checkin', 'review_scores_communication', 'review_scores_location', 'review_scores_value']]
         scores_df = pd.DataFrame(imputer.fit_transform(scores_df),columns = scores_df.columns, index=df.index)
         df = df.merge(scores_df, on='listing_id')
@@ -182,10 +182,10 @@ class Processor():
                 'host_identity_verified','host_has_profile_pic','host_is_superhost' ,
                 'bed_type','room_type','host_response_rate', 'host_response_time', 
                 'host_memship_in_years', 'host_total_listings_count' , 'reviews_per_month', 'dist', 'description_length',
-                'house_rules_length','transit_length',
                 'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
                 'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy',
-                'price_cluster', 'log_price'
+                'neighbourhood_cleansed',
+                'log_price'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
             ]]
@@ -197,7 +197,7 @@ class Processor():
                 'host_memship_in_years', 'host_total_listings_count', 'reviews_per_month','dist', 'description_length',
                 'review_scores_rating_y','review_scores_accuracy_y','review_scores_cleanliness_y', 'review_scores_checkin_y',              
                 'review_scores_communication_y','review_scores_location_y','review_scores_value_y', 'cancellation_policy',
-                'house_rules_length','transit_length'
+                'neighbourhood_cleansed'
                 #'longitude', 'latitude'
                 #'experience_offered' #'property_type'
                 ]]
@@ -223,9 +223,10 @@ class Processor():
             * bed_type
             * room_type
             * property_type
+            * neighbourhood_cleansed
         '''
-        dummies = pd.get_dummies(df[['bed_type', 'room_type', 'cancellation_policy']]) #'property_type'
-        df = df.drop(['bed_type', 'room_type', 'cancellation_policy'], axis=1) #'property_type'
+        dummies = pd.get_dummies(df[['bed_type', 'room_type', 'cancellation_policy', 'neighbourhood_cleansed']]) #'property_type'
+        df = df.drop(['bed_type', 'room_type', 'cancellation_policy', 'neighbourhood_cleansed'], axis=1) #'property_type'
 
         X = pd.concat([dummies, df], axis=1)  
 
