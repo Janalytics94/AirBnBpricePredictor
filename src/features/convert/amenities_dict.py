@@ -87,6 +87,8 @@ amenities_dict = {
             'Bedroom comforts': 'Comfortable Sleep',
             'Murphy bed': 'Comfortable Sleep',
             'Day bed':  'Comfortable Sleep',
+            'Ceiling hoist' : 'Comfortable Sleep',
+            'Electric profiling bed' :  'Comfortable Sleep',
            
 
             # Comfortable Sleep
@@ -212,6 +214,7 @@ amenities_dict = {
             'Outdoor parking': 'Outdoor',
             'Outdoor seating': 'Outdoor',
             'Barbecue utensils': 'Outdoor',
+            'Mountain view': 'Outdoor',
 
             # Gym
             'Exercise equipment': 'Gym',

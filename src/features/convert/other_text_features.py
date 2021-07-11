@@ -14,25 +14,38 @@ import requests
 import langdetect
 
 from langdetect import detect
-
+from time import sleep
 from clize import run
 
 def clean_amenities(source, target):
     
     df_names = ['train', 'test']
     for df_name in df_names:
-        df = pd.read_csv(os.path.join(source + '/'+ df_name + '.csv'), index_col='listing_id')
-        df = df[df.amenities != '{}']
-        df['amenities'] = df['amenities'].apply(lambda x: x.replace('{', '').replace('}', '').replace('"','').split(','))
-        df['amenities'] = df['amenities'].apply(lambda x:','.join(x))
-        amenities = np.unique(np.concatenate(df['amenities'].map(lambda amns: amns.split(",")).values))
-        amenities_matrix = np.array([df['amenities'].map(lambda amns: amn in amns).values for amn in amenities])
-        amenities_df = pd.DataFrame(data=amenities_matrix.T, columns=amenities, index=df.index)
-        amenities_df = amenities_df.drop(columns=[ 'translation missing: en.hosting_amenity_49', 'translation missing: en.hosting_amenity_50' ])
-        amenities_df = amenities_df.rename(columns=amenities_dict)
+        if df_name == 'train':
+            df = pd.read_csv(os.path.join(source + '/'+ df_name + '.csv'), index_col='listing_id')
+            df = df[df.amenities != '{}']
+            df['amenities'] = df['amenities'].apply(lambda x: x.replace('{', '').replace('}', '').replace('"','').split(','))
+            df['amenities'] = df['amenities'].apply(lambda x:','.join(x))
+            amenities = np.unique(np.concatenate(df['amenities'].map(lambda amns: amns.split(",")).values))
+            amenities_matrix = np.array([df['amenities'].map(lambda amns: amn in amns).values for amn in amenities])
+            amenities_df = pd.DataFrame(data=amenities_matrix.T, columns=amenities, index=df.index)
+            amenities_df = amenities_df.drop(columns=['translation missing: en.hosting_amenity_49', 'translation missing: en.hosting_amenity_50' ])
+            amenities_df = amenities_df.rename(columns=amenities_dict)
+            amenities_df = amenities_df.loc[:,~amenities_df.columns.duplicated(keep='last')]
+            amenities_df.to_csv(os.path.join(target + '/' + df_name + '/' + 'amenities_'+ df_name + '.csv'))
 
-        amenities_df.to_csv(os.path.join(target + '/' + df_name + '/' + 'amenities_'+ df_name + '.csv'))
-    
+        else:
+            df = pd.read_csv(os.path.join(source + '/'+ df_name + '.csv'), index_col='listing_id')
+            df['amenities'] = df['amenities'].apply(lambda x: x.replace('{', '').replace('}', '').replace('"','').split(','))
+            df['amenities'] = df['amenities'].apply(lambda x:','.join(x))
+            amenities = np.unique(np.concatenate(df['amenities'].map(lambda amns: amns.split(",")).values))
+            amenities_matrix = np.array([df['amenities'].map(lambda amns: amn in amns).values for amn in amenities])
+            amenities_df = pd.DataFrame(data=amenities_matrix.T, columns=amenities, index=df.index)
+            amenities_df = amenities_df.drop(columns=['', 'translation missing: en.hosting_amenity_49', 'translation missing: en.hosting_amenity_50' ])
+            amenities_df = amenities_df.rename(columns=amenities_dict)
+            amenities_df = amenities_df.loc[:,~amenities_df.columns.duplicated(keep='last')]
+            amenities_df.to_csv(os.path.join(target + '/' + df_name + '/' + 'amenities_'+ df_name + '.csv'))
+
     return 
 
 def process_other_text_features(source, target):
@@ -136,5 +149,5 @@ def process_other_text_features(source, target):
                 
 
 if __name__=='__main__':
-    run(process_other_text_features)#clean_amenities)
+    run(clean_amenities)#process_other_text_features
 
