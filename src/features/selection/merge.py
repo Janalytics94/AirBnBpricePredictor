@@ -28,9 +28,9 @@ def merge(source, target):
     for df_name in df_names:
         
         df = pd.read_csv(os.path.join(source + '/' + df_name + '/'+ df_name + '.csv'), index_col='listing_id')
-        amenities_df = pd.read_csv(os.path.join(source + '/' + df_name + '/'+ 'amenities_' + df_name + '.csv'), index_col='listing_id')
+        amenities_df = pd.read_csv(os.path.join(source + '/' + df_name + '/'+ 'amenities.csv'), index_col='listing_id')
         df = df.merge(amenities_df, on='listing_id')
-        input_images = open(os.path.join(source + '/'+ df_name + '/' + 'img_' + df_name + '.jsonl'))
+        input_images = open(os.path.join(source + '/'+ df_name + '/' + 'images.jsonl'))
         image_data = [json.loads(input_line) for input_line in input_images]
         listing_ids = [image_data[index]['listing_id'] for index in range(len(image_data))]
         brightness_values = [image_data[index]['Brightness'] for index in range(len(image_data))]

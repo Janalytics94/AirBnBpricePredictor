@@ -44,7 +44,7 @@ def clean_amenities(source, target):
             amenities_df = amenities_df.drop(columns=['', 'translation missing: en.hosting_amenity_49', 'translation missing: en.hosting_amenity_50' ])
             amenities_df = amenities_df.rename(columns=amenities_dict)
             amenities_df = amenities_df.loc[:,~amenities_df.columns.duplicated(keep='last')]
-            amenities_df.to_csv(os.path.join(target + '/' + df_name + '/' + 'amenities_'+ df_name + '.csv'))
+            amenities_df.to_csv(os.path.join(target + '/' + df_name + '/' + 'amenities.csv'))
 
     return 
 
@@ -149,5 +149,5 @@ def process_other_text_features(source, target):
                 
 
 if __name__=='__main__':
-    run(clean_amenities)#process_other_text_features
+    run(process_other_text_features, clean_amenities)
 
