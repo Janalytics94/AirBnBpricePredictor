@@ -266,23 +266,20 @@ class Processor():
 
     def create_train_validation_frames(self, train, target, test):
         ''' 
-        Create train and validation set to evaluate model performance of 
-        our neural network 
+        Create train and validation set to evaluate model performances
         '''
         
-        mn = MinMaxScaler()
+        #scaler = MinMaxScaler()
+        x_train, x_test, y_train, y_test = train_test_split(train,target, test_size=0.2, shuffle=True, random_state=0)
+               
+        #x_train = scaler.fit_transform(x_train)
+        #x_test = scaler.transform(x_test)
     
-        train, validate, y_train, y_validate = train_test_split(train,target, test_size=0.2, shuffle=True, random_state=0)
-        x_train_scaled = pd.DataFrame(mn.fit_transform(train), columns = train.columns)
-        x_validate_scaled = pd.DataFrame(mn.fit_transform(validate), columns = validate.columns)
-        x_test_scaled = pd.DataFrame(mn.fit_transform(test), columns = test.columns)
-        # Turn everything into a numpy array
-        #train = np.asarray(train).astype(np.float32)
-        # validate = np.asarray(validate).astype(np.float32)
-        # y_train = np.asarray(y_train).astype(np.float32)
-        #y_validate = np.asarray(y_validate).astype(np.float32)
         
-        return train, validate, y_train, y_validate
+        #y_train = np.asarray(y_train).astype(np.float32)
+        #y_test = np.asarray(y_test).astype(np.float32)
+        
+        return x_train, x_test, y_train, y_test
     
 
   
