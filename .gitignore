@@ -25,3 +25,5 @@ predictions/sample_submission_xgb.csv
 predictions/sample_submission.csv
 notebooks/.ipynb_checkpoints/
 src/features/__pycache__/__init__.cpython-39.pyc
+604930.zip
+604930/
