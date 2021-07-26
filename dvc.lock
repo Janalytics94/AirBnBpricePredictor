@@ -1,0 +1,9 @@
+schema: '2.0'
+stages:
+  predict:
+    cmd:
+    - ./src/models/predict.py 0FEMC4VA5U
+    deps:
+    - path: data/canonical/test/test.csv
+      md5: f0dbe6293c6658b5b8ff128a99153dac
+      size: 19269609
