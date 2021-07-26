@@ -1,42 +1,8 @@
+# Mini Pipeline with dvc
 stages:
-    ingest: Params file possible
+    predict:
         cmd: 
-        - ./src/ingest/YelpCrawler.py
-        - ./src/ingest/ImageCrawler.py /root/data/raw/ train.csv /root/data/images/
-        - ./src/ingest/ImageCrawler.py data/raw/ train.csv /root/data/images/
-        -  data/raw/
-        -  data/images/ 
-        outs:
-        - data/images/*.png
-            cache: false
-
-    preprocess: # Images, Long Lat, Text Data, Other Features
-        cmd:
-        - ./src/features/preprocess/Rechenknecht.py  
-        - data/raw/ 
-        - test.csv 
-        - data/images/test/ 
-        - data/interim/test/longlat.csv 
-        - data/images/test/  
-        - data/interim/test/test.csv
-    selection:
-        cmd:
-        - ./src/features/select/combine.py 
-        - data/interim/train/ 
-        - data/canonical/train/train.csv
-# Data Pathas anpassen/flexibel in stages gestalten --> How?
-
-# convert 
-
-# yelp
-
-# text 
-
-# images 
-
-# others
-./src/features/convert/others.py /root/data/raw /root/data/canonical
-
-# merge all 
-
-./src/features/selection/merge.py /root/data/interim /root/data/canonical
+        - ./src/models/predict.py 0FEMC4VA5U 
+        deps:
+        - data/canonical/test/test.csv
+     
