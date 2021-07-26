@@ -1,0 +1,4 @@
+outs:
+- md5: e79cc5bc8cb43715936a613f0af3d1ab
+  size: 1088612
+  path: xgb_reg.pkl

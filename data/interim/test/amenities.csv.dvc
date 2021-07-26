@@ -1,0 +1,4 @@
+outs:
+- md5: 841a359400c9de5a168da978690fd2f0
+  size: 8729240
+  path: amenities.csv
