@@ -2,7 +2,7 @@
 stages:
     predict:
         cmd: 
-        - ./src/models/predict.py 0FEMC4VA5U 
+        - ./src/models/predict.py 0FEMC4VA5U  # any listing_id in test data possible
         deps:
         - data/canonical/test/test.csv
      
