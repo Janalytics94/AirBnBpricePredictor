@@ -1,36 +1,22 @@
 #!/usr/bin/env python3
+from xgboost import XGBRegressor
 
-import os 
-import pandas as pd
+class AirbnbPricePredictor():
+    ''' Holds the final method to predict prices of Airbnb's in London'''
 
-from clize import run 
+    def __init__(self):
+        model = XGBRegressor()
+        model.load_model('../data/models/xgb.json')
+        
+    def predict(self, listing_id): #'0FEMC4VA5U'
+        predictions = model.predict(X_test, ntree_limit=model.best_ntree_limit)
+        predictions = pd.Series(predictions.ravel(), index=test.index, name='price')
+        predictions = predictions.apply(lambda x: np.exp(x))
+        price = predictions.filter(like=listing_id)[0]
+        
+        return print('The predicted price of this Airbnb is: ' + str(round(price,2)) + " £.")
 
-from sklearn.linear_model import LinearRegression
 
-#def predict(source, target):
-
-train = pd.read_csv('data/canonical/train/train.csv', index_col='listing_id')
-test = pd.read_csv('data/canonical/test/test.csv', index_col='listing_id')
-len(test)
-test.isnull().sum()
-test = test.dropna()
-
-
-train = train[train.isnull()!=True]
-train = train.dropna()
-len(train)
-target = train.price
-train = train.drop('price', axis=True)
-len(train)
-len(target)
-reg = LinearRegression().fit(train, target)
-reg.score(train, target)
-predictions = reg.predict(test)
-predictions = pd.Series(predictions, index=test.index, name='price')
-predictions
-index = pd.Series(test.index)
-index
-predictions = pd.concat([index, predictions], axis=1) 
-# W
-predictions
-predictions.to_csv('predictions/sample_submission.csv')
+if __name__ == "__main__":
+    airbnb = AirbnbPricePredictor()
+    airbnb.predict('0FEMC4VA5U')
