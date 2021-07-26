@@ -1,15 +1,19 @@
 #! /usr/bin/env python3
 import os
+import pandas as pd
 import xgboost
+import pickle
+import numpy as np
+
 from xgboost import XGBRegressor
 from clize import run
+
 
 def predict(listing_id):
     ''' Holds the final method to predict prices of Airbnb's in London'''
     listing_id = str(listing_id)
-    model = XGBRegressor()
-    model.load_model(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "data/models/xgb.json"))
-    test = pd.read_csv(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "data/canonical/test/test.csv"), index_col='listing_id')
+    test = pd.read_csv("data/canonical/test/test.csv", index_col='listing_id')
+    model = pickle.load(open("data/models/xgb_reg.pkl", "rb"))
     predictions = model.predict(test, ntree_limit=model.best_ntree_limit)
     predictions = pd.Series(predictions.ravel(), index=test.index, name='price')
     predictions = predictions.apply(lambda x: np.exp(x))
