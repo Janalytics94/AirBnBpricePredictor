@@ -1,5 +1,30 @@
 schema: '2.0'
 stages:
+  merge:
+    cmd:
+    - ./src/features/selection/merge.py data/interim data/canonical
+    deps:
+    - path: data/interim/reviews/csv/reviews.csv
+      md5: 1bd1e0b595214a9ffe4eb8e8697ca44a
+      size: 1334385689
+    - path: data/interim/test/amenities.csv
+      md5: 841a359400c9de5a168da978690fd2f0
+      size: 8729240
+    - path: data/interim/test/images.jsonl
+      md5: 62435e1a19bd422377d8f5071383e77c
+      size: 4838782
+    - path: data/interim/test/test.csv
+      md5: 6bd18e69c1fb4e250373c7b734a5193c
+      size: 6435402
+    - path: data/interim/train/amenities.csv
+      md5: 85cc61f2ee73f71297579ee130d8c1b5
+      size: 16144190
+    - path: data/interim/train/images.jsonl
+      md5: 7f637d3294866cbcaa1388cf10f5a1d4
+      size: 8984279
+    - path: data/interim/train/train.csv
+      md5: 59b22fd71520637b692cf565fd260aa0
+      size: 13237675
   predict:
     cmd:
     - ./src/models/predict.py 0FEMC4VA5U
@@ -7,3 +32,6 @@ stages:
     - path: data/canonical/test/test.csv
       md5: f0dbe6293c6658b5b8ff128a99153dac
       size: 19269609
+    - path: data/models/xgb_reg.pkl
+      md5: e79cc5bc8cb43715936a613f0af3d1ab
+      size: 1088612
