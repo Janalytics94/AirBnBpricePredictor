@@ -39,7 +39,7 @@ def tf_idf(source, target):
     for df_name in df_names: 
         df = pd.read_csv(os.path.join(source, df_name, 'texts.csv'), index_col='listing_id')
         listing_ids = df.index.values
-        #filter_col = [col for col in df if col.startswith('lemmas_')]# all leammas possible 
+        filter_col = [col for col in df if col.startswith('lemmas_')]# all leammas possible 
         col = 'lemmas_name'
         df = df[col]
         df = df.apply(lambda x: x.strip(" ]' ' '[" " ").split(','))
