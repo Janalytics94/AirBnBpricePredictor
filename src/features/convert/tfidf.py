@@ -23,7 +23,7 @@ def tf_idf(source, target):
     Function that calculates TF_IDF for each text feature in train and test data
     '''
     nlp = spacy.load("en_core_web_sm")
-   # source = 'data/interim'
+    #source = 'data/interim'
     #df_name = 'train'
     #target = 'data/tmp'
 
@@ -38,13 +38,19 @@ def tf_idf(source, target):
     df_names = ['train', 'test']
     for df_name in df_names: 
         df = pd.read_csv(os.path.join(source, df_name, 'texts.csv'), index_col='listing_id')
+        df = df[['name', 'description']]
+        df = df[['name', 'description', 'transit', 'house_rules','neighborhood_overview']]
+        df = df.dropna()
+        df['all'] = df.apply(lambda x: ' '.join(x), axis=1)
+        df
         listing_ids = df.index.values
         filter_col = [col for col in df if col.startswith('lemmas_')]# all leammas possible 
-        col = 'lemmas_name'
-        df = df[col]
-        df = df.apply(lambda x: x.strip(" ]' ' '[" " ").split(','))
-        df = [[df[j][i].strip(" ' ") for i in range(0,len(df[j]))] for j in range(0,len(df))]
-        array = df
+        #col = 'lemmas_name'
+        for col in filter_col:
+            df = df[col]
+            df = df.apply(lambda x: x.strip(" ]' ' '[" " ").split(','))
+            df = [[df[j][i].strip(" ' ") for i in range(0,len(df[j]))] for j in range(0,len(df))]
+            array = df
            
         # Calculate DF & TF_IDF
         DF = {}
