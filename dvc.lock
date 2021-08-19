@@ -42,3 +42,7 @@ stages:
     - path: data/models/xgb_reg.pkl
       md5: e79cc5bc8cb43715936a613f0af3d1ab
       size: 1088612
+    outs:
+    - path: predictions/submission.csv
+      md5: d2faecf5467e9276cff3adf3568bdcd5
+      size: 873701

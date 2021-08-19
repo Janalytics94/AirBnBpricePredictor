@@ -17,7 +17,7 @@ def predict(listing_id):
     predictions = model.predict(test, ntree_limit=model.best_ntree_limit)
     predictions = pd.Series(predictions.ravel(), index=test.index, name='price')
     predictions = predictions.apply(lambda x: np.exp(x))
-    predictions.to_csv('../predictions/submission.csv')
+    predictions.to_csv('predictions/submission.csv')
     price = predictions.filter(like=listing_id)[0]
     
     return print('The predicted price of this Airbnb is: ' + str(round(price,2)) + " £.")
