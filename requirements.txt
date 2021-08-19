@@ -12,3 +12,8 @@ scikit-learn
 lightgbm
 xgboost
 dvc
+folium
+wordcloud
+google-trans-new
+geopy
+spacytextblob

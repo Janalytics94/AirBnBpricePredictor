@@ -1,7 +1,7 @@
 FROM jjanzic/docker-python3-opencv
 
-WORKDIR /root/
-COPY requirements.txt /root/requirements.txt
+WORKDIR /root/airbnb/
+COPY requirements.txt /root/airbnb/requirements.txt
 
 RUN apt-get update && \
     apt-get install -y git &&\
