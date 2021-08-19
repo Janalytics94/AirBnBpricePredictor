@@ -11,10 +11,18 @@ stages:
         -  data/interim/test/test.csv 
         -  data/interim/test/amenities.csv
         -  data/interim/test/images.jsonl
+        outs:
+        -  data/canonical/train/train.csv:
+            cache: False
+        -  data/canonical/test/test.csv:
+            cache: False
     predict:
         cmd: 
         - ./src/models/predict.py 0FEMC4VA5U  # any listing_id in test data possible
         deps:
         - data/models/xgb_reg.pkl    
         - data/canonical/test/test.csv
+        outs:
+        -  predictions/submission.csv:
+            cache: False
      

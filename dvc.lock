@@ -25,6 +25,13 @@ stages:
     - path: data/interim/train/train.csv
       md5: 59b22fd71520637b692cf565fd260aa0
       size: 13237675
+    outs:
+    - path: data/canonical/test/test.csv
+      md5: f0dbe6293c6658b5b8ff128a99153dac
+      size: 19269609
+    - path: data/canonical/train/train.csv
+      md5: acf45fa04999e325d57c4dc5573a51b8
+      size: 36447632
   predict:
     cmd:
     - ./src/models/predict.py 0FEMC4VA5U
