@@ -16,7 +16,7 @@ def merge(source, target):
 
     #source = '/root/data/interim'
     #target = '/root/data/canonical'
-    reviews = pd.read_csv('/root/data/interim/reviews/csv/reviews.csv', index_col='listing_id')
+    reviews = pd.read_csv('data/interim/reviews/csv/reviews.csv', index_col='listing_id')
     # drop those who only have one character
     reviews = reviews[reviews.comment_length>=2]
     mean_comment_length = reviews.groupby(reviews.index)['comment_length'].mean().to_frame()
